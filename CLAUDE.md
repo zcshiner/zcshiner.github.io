@@ -78,8 +78,16 @@ zcshiner.github.io/
 ├── patents.md           # Patents page (static table of issued patents)
 ├── contact.md           # Contact page (simple mailto link)
 │
+├── _layouts/            # Local overrides of Minima theme layouts
+│   ├── home.html        # Projects listing — renders featured image when post.image is set
+│   └── post.html        # Individual post page — renders featured image when page.image is set
+│
 ├── _posts/              # Project write-ups and blog posts (Markdown)
 │   └── YYYY-MM-DD-title.md
+│
+├── assets/
+│   └── css/
+│       └── style.scss   # Global stylesheet — imports minima, adds .post-featured-image styles
 │
 ├── images/              # Site images (referenced as /images/filename.jpg)
 │
@@ -87,9 +95,8 @@ zcshiner.github.io/
 ```
 
 ### Key directories to add if needed
-- `_layouts/` — override Minima's default layouts (e.g., `page.html`, `home.html`)
 - `_includes/` — override Minima's partials (e.g., `header.html`, `footer.html`)
-- `_sass/` — override or extend Minima's stylesheets (add `assets/css/style.scss` as entry point)
+- `_sass/` — override or extend Minima's stylesheets with additional partials
 
 ---
 
@@ -116,6 +123,7 @@ layout: post
 title: "Project Title"
 date: YYYY-MM-DD HH:MM:SS +0000
 categories: projects
+image: /images/filename.jpg  # optional — displays as featured image in listing and at top of post
 ---
 ```
 
@@ -187,8 +195,10 @@ Only plugins on the [GitHub Pages supported list](https://pages.github.com/versi
 ### Add a new project post
 1. Create `_posts/YYYY-MM-DD-project-name.md`
 2. Include front matter: `layout: post`, `title`, `date`, `categories: projects`
-3. Write content in Markdown below the front matter
-4. The post will automatically appear on the Projects page
+3. Optionally add `image: /images/filename.jpg` to the front matter — the image will appear above the post title in the Projects listing and above the content on the post page
+4. Drop the image file in `images/` if using one
+5. Write content in Markdown below the front matter
+6. The post will automatically appear on the Projects page
 
 ### Add a new nav page
 1. Create `pagename.md` with `layout: page`, `title`, and optionally `permalink`
