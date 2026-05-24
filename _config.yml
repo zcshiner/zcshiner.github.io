@@ -26,3 +26,8 @@ header_pages:
     - projects.md
     - patents.md
     - contact.md
+
+exclude:
+    - CLAUDE.md
+    - Dockerfile
+    - README.md
