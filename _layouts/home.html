@@ -29,7 +29,7 @@ layout: default
             <p class="post-card-description">{{ post.description }}</p>
           {%- endif -%}
           <div class="post-card-meta">
-            {%- assign date_format = site.minima.date_format | default: "%b %-d, %Y" -%}
+            {%- assign date_format = site.minima.date_format | default: "%B %Y" -%}
             <span>{{ post.date | date: date_format }}</span>
             {%- if post.project_type -%}
               <span class="post-project-type">{{ post.project_type }}</span>
