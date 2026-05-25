@@ -4,6 +4,7 @@ title: "ANTHEM Distal Femur Fracture System"
 date: 2021-01-01 00:00:00 +0000
 categories: projects
 image: /images/anthem-hero.jpg
+thumb: /images/thumbs/anthem-hero-thumb.jpg
 description: "Instrumentation for an orthopedic fracture fixation system"
 project_type: Professional
 location: "Globus Medical"
@@ -19,7 +20,7 @@ I lead the development of most of the high-accuracy percutaneous targeting instr
 
 <div class="post-img-grid post-img-grid-wide">
   <div class="video-embed">
-    <iframe width="560" height="315" src="https://www.youtube.com/embed/sY36V-Qr1JE" title="ANTHEM Distal Femur Fracture System" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+    <iframe src="https://www.youtube-nocookie.com/embed/sY36V-Qr1JE?rel=0" title="ANTHEM Distal Femur Fracture System" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen loading="lazy"></iframe>
   </div>
   <img src="/images/anthem-img2.jpg" alt="ANTHEM targeting instrumentation">
   <img src="/images/anthem-img3.jpg" alt="ANTHEM targeting instrumentation detail">

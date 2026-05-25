@@ -25,6 +25,12 @@ layout: default
   <div class="post-content e-content" itemprop="articleBody">
     {{ content }}
   </div>
+  <script>
+    document.querySelectorAll('.post-content img').forEach(function(img) {
+      img.loading = 'lazy';
+      img.decoding = 'async';
+    });
+  </script>
 
   {%- if site.disqus.shortname -%}
     {%- include disqus_comments.html -%}

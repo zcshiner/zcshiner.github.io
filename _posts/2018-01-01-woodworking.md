@@ -4,6 +4,7 @@ title: "Woodworking"
 date: 2018-01-01 00:00:00 +0000
 categories: projects
 image: /images/woodworking-hero.jpg
+thumb: /images/thumbs/woodworking-hero-thumb.jpg
 project_type: Personal
 location: "Philadelphia Woodworks"
 description: "Cherry coffee table with soft-close poplar drawers, designed in Fusion 360"

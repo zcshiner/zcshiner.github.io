@@ -4,6 +4,7 @@ title: "Stewart Platform"
 date: 2015-05-01 00:00:00 +0000
 categories: projects
 image: /images/stewart-platform-hero.jpg
+thumb: /images/thumbs/stewart-platform-hero-thumb.jpg
 description: "Six degree of freedom motion simulator for maritime quadcopter landing research"
 project_type: Academic
 location: "Penn State - ME 445 Microcomputer Interfacing"
@@ -15,7 +16,7 @@ I built a Stewart platform as a final project in my senior elective class: ME 44
 
 <div class="post-img-grid post-img-grid-wide">
   <div class="video-embed">
-    <iframe width="560" height="315" src="https://www.youtube.com/embed/kFUClV3Ajeg" title="Stewart Platform" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+    <iframe src="https://www.youtube-nocookie.com/embed/kFUClV3Ajeg?rel=0&autoplay=1&mute=1" title="Stewart Platform" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen loading="lazy"></iframe>
   </div>
   <img src="/images/stewart-platform-01.jpeg" alt="CAD Model">
   <img src="/images/stewart-platform-02.jpeg" alt="Stewart Platform">

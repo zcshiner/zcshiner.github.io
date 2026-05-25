@@ -15,7 +15,10 @@ layout: default
       <a class="post-card" href="{{ post.url | relative_url }}">
         {%- if post.image -%}
           <div class="post-card-image">
-            <img src="{{ post.image }}" alt="{{ post.title | escape }}">
+            <img
+              src="{{ post.thumb | default: post.image }}"
+              loading="lazy"
+              alt="{{ post.title | escape }}">
           </div>
         {%- else -%}
           <div class="post-card-image post-card-image--placeholder"></div>

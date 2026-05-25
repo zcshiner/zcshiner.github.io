@@ -4,6 +4,7 @@ title: "Alarm Muffler"
 date: 2016-06-07 00:00:00 +0000
 categories: projects
 image: /images/alarm-muffler-hero.jpeg
+thumb: /images/thumbs/alarm-muffler-hero-thumb.jpeg
 project_type: Professional
 location: "Industrial Scientific"
 description: "Injection-molded sound deadening accessory for gas detectors, sold commercially at Grainger"
@@ -24,5 +25,5 @@ I invented a sound deadening accessory that was inspired by an anechoic chamber.
 </div>
 
 <div class="video-embed">
-  <iframe width="560" height="315" src="https://www.youtube.com/embed/VhJXhBcBhBM" title="Alarm Muffler" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+  <iframe src="https://www.youtube-nocookie.com/embed/VhJXhBcBhBM?rel=0" title="Alarm Muffler" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen loading="lazy"></iframe>
 </div>
