@@ -38,22 +38,39 @@ header.post-header {
 	display:none;
 }
 
+div.profile-banner {
+	display: grid;
+	width: 100%;
+	margin-bottom: 15px;
+}
+
+div.profile-banner > * {
+	grid-area: 1 / 1;
+}
+
+img.header-image {
+	width: 100%;
+	display: block;
+}
+
 span.intro-text {
-	position: absolute;
+	align-self: center;
+	justify-self: start;
 	z-index: 100;
-	font-size: 7vw;
+	font-size: clamp(1.2rem, 7vw, 12rem);
 	color: white;
 	font-weight: bold;
-	left: 0.5em;
-	top: 22vw;
-	line-height: 1.1em;
-	width: 9em;
+	padding: 0 1.5rem;
+	line-height: 1.2em;
+	width: min(9em, 90%);
 }
 
 </style>
 
+<div class="profile-banner">
 <img src="/images/z-home.jpg" class="header-image"/>
 <span class="intro-text">My name is Zach and it's a pleasure to meet you.</span>
+</div>
 
 <div markdown=1 class="below-content">
 
