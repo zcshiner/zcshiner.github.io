@@ -17,6 +17,9 @@ layout: default
         <span class="post-project-type">{{ page.project_type }}</span>
       {%- endif -%}
     </p>
+    {%- if page.location -%}
+      <p class="post-location">📍 {{ page.location }}</p>
+    {%- endif -%}
   </header>
 
   <div class="post-content e-content" itemprop="articleBody">
