@@ -1,7 +1,7 @@
 ---
 layout: post
-title:  "Radio-Synchronized Bedside Clock"
-date:   2024-10-01 00:00:00 +0000
+title: "Radio-Synchronized Bedside Clock"
+date: 2024-10-01 00:00:00 +0000
 categories: projects
 image: /images/clock_pretty.jpg
 description: "An accurate tabletop clock that stays in sync with WWVB"

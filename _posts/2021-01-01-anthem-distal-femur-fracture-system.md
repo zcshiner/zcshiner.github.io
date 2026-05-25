@@ -5,7 +5,7 @@ date: 2021-01-01 00:00:00 +0000
 categories: projects
 image: /images/anthem-hero.jpg
 description: "Instrumentation for an orthopedic fracture fixation system"
-project_type: "Professional"
+project_type: Professional
 location: "Globus Medical"
 ---
 
