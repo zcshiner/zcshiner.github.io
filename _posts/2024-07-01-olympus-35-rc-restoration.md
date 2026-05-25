@@ -5,6 +5,7 @@ date: 2024-07-01 00:00:00 +0000
 categories: projects
 image: /images/olympus-35rc-hero.jpg
 project_type: Personal
+description: "Full restoration of a 1970s rangefinder camera, including rewiring and fabricated light seals"
 ---
 
 ![Olympus 35 RC](/images/olympus-35rc-hero.jpg)

@@ -4,7 +4,9 @@ title: "Alarm Muffler"
 date: 2016-06-07 00:00:00 +0000
 categories: projects
 image: /images/alarm-muffler-hero.jpeg
-project_type: "Professional - Industrial Scientific"
+project_type: "Professional"
+location: "Industrial Scientific"
+description: "Injection-molded sound deadening accessory for gas detectors, sold commercially at Grainger"
 ---
 
 ![Alarm Muffler](/images/alarm-muffler-hero.jpeg)

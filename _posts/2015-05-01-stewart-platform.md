@@ -5,8 +5,8 @@ date: 2015-05-01 00:00:00 +0000
 categories: projects
 image: /images/stewart-platform-hero.jpg
 description: "Six degree of freedom motion simulator for maritime quadcopter landing research"
-project_type: "Academic - ME 445 Microcomputer Interfacing"
-location: "Penn State"
+project_type: "Academic"
+location: "Penn State - ME 445 Microcomputer Interfacing"
 ---
 
 <img src="/images/stewart-platform-hero.jpg" alt="The finished Stewart Platform" class="post-img-full">

@@ -6,6 +6,7 @@ categories: projects
 image: /images/woodworking-hero.jpg
 project_type: Personal
 location: Philadelphia Woodworks
+description: "Cherry coffee table with soft-close poplar drawers, designed in Fusion 360"
 ---
 
 ![Woodworking](/images/woodworking-hero.jpg)
