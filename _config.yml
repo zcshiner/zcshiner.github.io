@@ -16,7 +16,7 @@ plugins:
 collections:
   posts:
     output: true
-    permalink: /posts/:title
+    permalink: /projects/:title
 
 header_pages:
     - index.md
