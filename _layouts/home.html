@@ -22,6 +22,9 @@ layout: default
         {%- endif -%}
         <div class="post-card-body">
           <h3 class="post-card-title">{{ post.title | escape }}</h3>
+          {%- if post.description -%}
+            <p class="post-card-description">{{ post.description }}</p>
+          {%- endif -%}
           {%- assign date_format = site.minima.date_format | default: "%b %-d, %Y" -%}
           <span class="post-card-meta">{{ post.date | date: date_format }}</span>
         </div>
