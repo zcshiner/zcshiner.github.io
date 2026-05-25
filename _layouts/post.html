@@ -16,10 +16,6 @@ layout: default
     </p>
   </header>
 
-  {%- if page.image -%}
-    <img src="{{ page.image }}" alt="{{ page.title | escape }}" class="post-featured-image">
-  {%- endif -%}
-
   <div class="post-content e-content" itemprop="articleBody">
     {{ content }}
   </div>
