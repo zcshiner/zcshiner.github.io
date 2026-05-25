@@ -1,0 +1,11 @@
+<footer class="site-footer">
+  <div class="wrapper">
+    <p class="p-name">
+      {%- if site.author -%}
+        {{ site.author | escape }}
+      {%- else -%}
+        {{ site.title | escape }}
+      {%- endif -%}
+    </p>
+  </div>
+</footer>

@@ -2,6 +2,15 @@
 ---
 @import "minima";
 
+.social-media-list .svg-icon {
+	padding-top: 0.1em;
+}
+
+.p-name {
+  font-size: 15px;
+  color: #828282;
+}
+
 .post-img-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
