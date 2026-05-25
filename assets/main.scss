@@ -179,3 +179,15 @@ img.post-featured-image {
   color: #2c5fb3;
   line-height: 1.6;
 }
+
+.video-embed {
+  margin: 1.5rem 0;
+
+  iframe {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    height: auto;
+    display: block;
+    border-radius: 3px;
+  }
+}
