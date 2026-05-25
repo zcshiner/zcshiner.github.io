@@ -6,4 +6,4 @@ layout: home
 title:  "Projects"
 ---
 
-Read on for a bit more in-depth detail about some of my portfolio projects
+Much of my professional work is confidential. These are projects I am able and *excited* to share.

@@ -12,7 +12,9 @@ location: "Penn State - ME 445 Microcomputer Interfacing"
 
 <img src="/images/stewart-platform-hero.jpg" alt="The finished Stewart Platform" class="post-img-full">
 
-I built a Stewart platform as a final project in my senior elective class: ME 445 Microcomputer Interfacing for Mechanical Engineers. A Stewart Platform is a six degree of freedom manipulator commonly used in motion simulators and positioning applications. Six independent computer-controlled actuators work together to precisely control the position of a platform. The platform and demonstration software was designed to simulate wave-like motion that a helipad-equipped vessel might experience while at sea. The simulated motion was used as part of a research project to train quadcopter landing algorithms for maritime use.
+I built a Stewart platform as a final project in my senior elective class, *ME 445 Microcomputer Interfacing for Mechanical Engineers*.
+
+A Stewart Platform is a six degree of freedom manipulator commonly used in motion simulators and positioning applications. Six independent computer-controlled actuators work together to precisely control the position of a platform. The platform and demonstration software was designed to simulate wave-like motion that a helipad-equipped vessel might experience while at sea. The simulated motion was used as part of a research project to train quadcopter landing algorithms for maritime use.
 
 <div class="post-img-grid post-img-grid-wide">
   <div class="video-embed">

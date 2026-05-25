@@ -14,7 +14,7 @@ location: "Globus Medical"
 
 The ANTHEM® Distal Femur Fracture System offers anatomically contoured plates in a comprehensive set to treat a variety of distal femur fractures.
 
-I lead the development of most of the high-accuracy percutaneous targeting instrumentation for this system.
+I lead the development of most of the high-accuracy percutaneous targeting instrumentation for this system while working at Globus Medical.
 
 **Product Page:** [Product Overview](https://www.globusmedical.com/products/anthem-distal-femur-fracture-system/)
 

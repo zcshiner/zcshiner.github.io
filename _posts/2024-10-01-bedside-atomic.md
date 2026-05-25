@@ -19,15 +19,15 @@ What I ended up designing is a from-scratch clock that synchronizes with the WWV
 
 ## Motivation
 
-I began the project with a simple goal: replace my aging bedside clock with something better. Specifically, I wanted something that:
+I began the project with a simple goal, replace my aging bedside clock with something better. Specifically, I wanted something that:
 
 - Had a clear and legible display that was readable without glasses at night
 - Looked clean, intentional, and purposeful on my nightstand
-- Was always accurate
+- Was *always* accurate
 
-To my surprise, I couldn't find any commercial options that met my needs. Most "atomic clocks" on the market were designed for wall mounting, and the handful of tabletop clocks that did exist were either unattractive, expensive, or cluttered with irrelevant features like projecting the time on the ceiling.
+To my surprise, I couldn't find any commercial options that met my needs. Most "atomic clocks" on the market were designed for wall mounting. The handful of tabletop clocks that did exist were unattractive, expensive, or cluttered with esoteric features like projecting the time on the ceiling.
 
-So I decided to build my own.
+So, I decided to build my own.
 
 ## Time Accuracy
 
@@ -37,7 +37,7 @@ There are a few methods for automatically setting the time on a device. You can:
 - Give it a GPS antenna
 - Synchronize with WWVB
 
-The thought of adding another Internet connected device to my home was unappealing to me. It would mean managing Wifi credentials and device security -- things I'm not an expert on -- especially when there were other equally good options available. I also had concerns that my nightstand, being not immediately next to a window, would get poor GPS reception. Because of these considerations, I decided to explore the radio synchronization method.
+The thought of adding another internet connected device to my home was unappealing to me. It would mean managing wifi credentials and device security. These are things I'm not an expert on, especially when there are other equally good options available. I also had concerns that my nightstand, which is not immediately next to a window, would get poor GPS reception. Because of these considerations, I decided to explore the radio synchronization method.
 
 ## Proof of Concept
 
@@ -45,7 +45,7 @@ The thought of adding another Internet connected device to my home was unappeali
 
 I began by breadboarding a basic proof of concept. I used the [ES100-mod WWVB](https://www.universal-solder.ca/product/everset-es100-wwvb-bpsk-atomic-clock-starter-kit/) receiver module, connected to an Arduino and a Holtek HT16K33 display driver. My first step was using the provided example code to receive and display the time on a quad-digit, 7-segment LED module.
 
-After proving out the basic idea, I identified and incorporated a larger format display with dedicated AM/PM and alarm indicator LEDs. This would be the only display so the alarm indicators were reinterpreted as cues to the time sync status.
+After proving out the basic idea, I identified and incorporated a larger format display with dedicated AM/PM and alarm indicator LEDs. This would be the only display, so the alarm indicators were reinterpreted as cues to the time sync status.
 
 <div style="clear:both"></div>
 
@@ -53,15 +53,15 @@ After proving out the basic idea, I identified and incorporated a larger format 
 
 <img src="/images/clock_inspiration_newgate.png" alt="Newgate Space Hotel clock used as design reference" class="post-img-left">
 
-My early concepts were inspired by modernist and mid-century table clocks—clean shapes with subtle curves and minimal interactions. I built a lil mood board to guide the aesthetic direction and even asked AI to help me with inspiration.
+My early concepts were inspired by modernist and mid-century table clocks. I find their clean shapes, subtle curves, and minimal interactions quite appealing. I built a mood board to guide the aesthetic direction and even asked AI to help me with inspiration (this sentence has aged poorly).
 
 <div style="clear:left"></div>
 
 <img src="/images/clock_inspiration_ai.png" alt="AI-generated clock design inspiration" class="post-img-right">
 
-I eventually landed on a design direction I liked and started to build out a 3D model in SolidWorks. Although I planned to 3D print the housing, I designed it as if it would be injection molded. This means uniform wall thickness, consideration for draft angles, and planning for parting lines. I prioritized curvature continuity using splines, and validated the surface quality using zebra stripe analysis. The final design features a shallow curved bezel that smoothly transitions to a more rectangular rear panel that housed the buttons.
+I eventually landed on a design direction I liked and started to build out a 3D model in SolidWorks. Although I planned and did 3D print the housing, I designed it as if it would be injection molded. This means ensuring uniform wall thickness, consideration for draft angles, and planning for parting lines. I prioritized curvature continuity using splines, and validated the surface quality using zebra stripes. The final design features a shallow curved bezel that smoothly transitions to a more rectangular rear panel that houses the buttons.
 
-A downside of using a radio time signal is the clock only knows what time it is, unlike GPS that also knows where it is. This means that you need a way to input your current timezone as well as if you follow daylight savings time rules (looking at you Arizona). Therefore this design has 4 total inputs: Time Zone, DST, as well as an Hour and Minute adjust for getting the time right before a synchronization happens. More on that later.
+A downside of using a radio time signal is the clock only knows **what** time it is, unlike GPS that also knows **where** it is. This means that you need a way to input your current timezone as well as if you follow daylight savings time rules (looking at you [Arizona](https://en.wikipedia.org/wiki/Time_in_Arizona#Daylight_saving_time)). Therefore this design has 4 total inputs: Time Zone, DST, as well as an Hour and Minute adjust for getting the time right before a synchronization happens. More on that later.
 
 Internally, the layout required careful planning to make efficient use of space. The final configuration split the electronics across two PCBs: a front-facing board for the display, WWVB receiver, and main microcontroller. Then a rear board for the user controls and a very modern USB-C connector. Between the two would be the chapstick-sized 60khz ferrite antenna.
 
@@ -72,9 +72,9 @@ Everything was written in C++ and structured around a central timekeeping task. 
 
 In the final design, the system maintains UTC as its internal clock reference. Local time is calculated and displayed dynamically after evaluating the state of the rear switches and the DST bits that are broadcast as part of the WWVB signal.
 
-It was a huge accomplishment to watch the DST transition happen in real time and correctly this past March (yes I stayed up for it).
+It was a huge accomplishment to watch the DST transition happen in real time and correctly this past March (yes, I stayed up for it).
 
-One interesting quirk of WWVB: it's a 60 kHz longwave signal and propagates best at night, especially here on the East Coast. You can blame the ionosphere. This means a good time sync really only happens during "dark path" hours. A pair of Hour and Minute adjust buttons allow the time to be set at power up and before a good time sync takes place.
+One interesting quirk of WWVB: it's a 60 kHz longwave signal and propagates [best at night](https://tf.nist.gov/stations/wwvbcoverage.htm), especially here on the East Coast. You can blame the [ionosphere](https://en.wikipedia.org/wiki/Longwave#Propagation). This means a good time sync really only happens during "dark path" hours. A pair of Hour and Minute adjust buttons allow the time to be set at power up and before a good time sync takes place.
 
 ## PCB Design
 
@@ -88,7 +88,7 @@ This was my first ever PCB design and I used KiCad to create the schematic and b
 
 A little design trick that I am proud of is using a pair of diodes to form a 4-2 encoder. This let me read the 4 position Time Zone slider switch with just two signal lines.
 
-With reasonable confidence in my design and a nod of approval from an Electrical Engineering buddy of mine, I ordered PCBs from the internet and patiently awaited their arrival.
+With reasonable confidence in my design, and a nod of approval from an Electrical Engineering buddy of mine, I ordered PCBs from the internet and patiently awaited their arrival.
 
 ## First Testing
 
@@ -100,7 +100,9 @@ Once my boards arrived I set off to assemble them. Doing SMD assembly was anothe
 
 I did a thorough round of testing of this prototype board on the bench. Reception was great, timekeeping was accurate, all the buttons worked as they should and the supply voltage filtering seemed to be effective.
 
-That is until I assembled the clock inside the enclosure. While the system functioned reliably on the bench, reception failed entirely once the antenna was enclosed in the 3D printed housing.
+That is until I assembled the clock inside the housing. 😤
+
+While the system functioned reliably on the bench, reception failed entirely once the antenna was enclosed in the 3D printed housing.
 
 This kicked off a long debugging process. I considered whether the 3D printed plastic (possibly containing carbon black pigment) was shielding the signal, whether the PCB ground plane blocked reception, or whether cable routing introduced interference. I even tried wrapping the board in foil.
 
@@ -118,11 +120,10 @@ This final enclosure was 3D printed from matte gray PLA, and I laser-cut a smoke
 
 The result looked and felt like a real product. It's been on my nightstand for months now, and it's worked flawlessly.
 
-But wait, there's more!!
 
 ## Version 2: Chip-Down Redesign
 
-Once I had a solid v1, I couldn't resist starting on version 2. The enclosure remained essentially the same, but I wanted to push the electronics further. Specifically, I wanted to design a board that directly integrated a microcontroller, what my *advisors* call a "chip down" approach, rather than relying on a commercial Arduino board.
+Once I had a solid V1, I couldn't resist starting on version 2. The enclosure remained essentially the same, but I wanted to push the electronics further. Specifically, I wanted to design a board that directly integrated a microcontroller, what ~~[Brett](https://www.linkedin.com/in/brett-garberman-305a8a115/)~~ my advisor call a "chip down" approach, rather than relying on a commercial Arduino board.
 
 For this V2 I made the following changes:
 
@@ -136,7 +137,7 @@ For this V2 I made the following changes:
 
 <img src="/images/clock_v2_assembly.jpeg" alt="Version 2 professionally assembled board" class="post-img-right">
 
-This was also the first time I had a board assembled professionally. After hand-soldering my first design, I realized how time-consuming surface mount assembly is. This time I used a contract manufacturer to assemble the boards.
+This was also the first time I had a board assembled professionally. After hand soldering my first design, I realized how time consuming surface mount assembly is. This time I used a contract manufacturer to assemble the boards.
 
 I did make one small mistake. I'm using the Arduino Leonardo bootloader on this board and I accidentally wired two signals into the pins that would otherwise drive the board's TX/RX LEDs. I decided not to modify the bootloader and instead added a few bodge wires to the board to move those signals to unused pins.
 
@@ -146,11 +147,12 @@ I did make one small mistake. I'm using the Arduino Leonardo bootloader on this 
 
 This project has been deeply rewarding for me. It pushed my skills across hardware, firmware, and product design. It ultimately yielded a result that I use every single day.
 
-I'm already thinking about version 3. Maybe I'll add a battery backup, maybe I'll add some RGB LEDs, Who knows!
+I'm already thinking about V3. Battery backup? RGB LEDs? Who knows!
 
 ## References
 
 - I've got my code posted here [https://github.com/zcshiner/Bedside_Atom](https://github.com/zcshiner/Bedside_Atom)
 - I'm using Universal Solder's [ES100-MOD](https://universal-solder.ca/product/canaduino-es100-mod-wwvb-bpsk-atomic-clock-receiver-module/) WWVB Receiver
+- [WWVB Radio Controlled Clocks: Recommended Practices for Manufacturers and Consumers](https://tf.nist.gov/general/pdf/2422.pdf)
 
-I might consider selling a board and housing kit if there's interest. Drop me a line if that's something you would like.
+I might consider selling a board and housing kit if there's interest. [Drop me a line](/contact) if that's something you would like.

@@ -11,7 +11,9 @@ description: "Full restoration of a 1970s rangefinder camera, including rewiring
 
 ![Olympus 35 RC](/images/olympus-35rc-hero.jpg)
 
-I restored a 70s film camera that I purchased at an estate sale. The Olympus 35 RC suffers from a know corrosion issue in the electrical system. To restore the camera, I performed a partial disassembly and replaced damaged wiring. I fabricated replacement light seals and reassembled the camera.
+I restored a 70s film camera that I purchased at an estate sale.
+
+The Olympus 35 RC suffers from a know corrosion issue in the electrical system. To restore the camera, I performed a partial disassembly and replaced damaged wiring. I fabricated replacement light seals and reassembled the camera.
 
 <div class="post-img-grid">
   <img src="/images/olympus-35rc-disassembly.jpg" alt="Disassembly">

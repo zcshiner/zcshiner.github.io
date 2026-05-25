@@ -12,7 +12,11 @@ description: "Injection-molded sound deadening accessory for gas detectors, sold
 
 ![Alarm Muffler](/images/alarm-muffler-hero.jpeg)
 
-I invented a sound deadening accessory that was inspired by an anechoic chamber. We originally had a need for an internal tool to quiet the alarm on the product during testing and calibration. The alarm only had two volume settings: off and very loud. There was an internal contest for who could reduce the sound level the most. My design reduced the sound pressure level twice as much as the next competing design. It ended up being so useful that it was turned into a commercial accessory. The Alarm Muffler is manufactured from injection molded ABS. It's prominently featured in many training videos online and available for purchase [at Grainger](https://www.grainger.com/product/INDUSTRIAL-SCIENTIFIC-Alarm-Muffler-Alarm-Muffler-52HP60).
+I invented a sound deadening accessory that was inspired by an anechoic chamber.
+
+At Industrial Scientific, we had a need for an internal tool to quiet the alarm on products during testing and calibration. The alarm only had two volume settings: off and *very loud*. There was an internal contest for who could reduce the sound level the most. My design reduced the sound pressure level twice as much as the next competing design. It ended up being so useful that it was turned into a commercial accessory.
+
+The Alarm Muffler is manufactured from injection molded ABS. It's prominently featured in many training videos online and available for purchase [at Grainger](https://www.grainger.com/product/INDUSTRIAL-SCIENTIFIC-Alarm-Muffler-Alarm-Muffler-52HP60).
 
 <div class="post-img-grid post-img-grid-wide">
   <img src="/images/alarm-muffler-cad-model.jpg" alt="Early CAD model in Creo">
