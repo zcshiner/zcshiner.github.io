@@ -4,6 +4,7 @@ title: "Olympus 35 RC Restoration"
 date: 2024-07-01 00:00:00 +0000
 categories: projects
 image: /images/olympus-35rc-hero.jpg
+project_type: Personal
 ---
 
 ![Olympus 35 RC](/images/olympus-35rc-hero.jpg)
