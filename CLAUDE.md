@@ -123,11 +123,14 @@ layout: post
 title: "Project Title"
 date: YYYY-MM-DD HH:MM:SS +0000
 categories: projects
-image: /images/filename.jpg  # optional — displays as featured image in listing and at top of post
+image: /images/filename.jpg      # optional — featured image in listing and at top of post
+description: "Short summary"     # optional — shown as subtitle on the project card
+project_type: "Software"         # optional — label shown on the project card
+location: "City, State"          # optional — shown with a 📍 pin on the project card
 ---
 ```
 
-Posts are listed in reverse chronological order. The permalink pattern is `/posts/:title` (set in `_config.yml` under `collections.posts.permalink`).
+Posts are listed in reverse chronological order. The permalink pattern is `/projects/:title` (set in `_config.yml` under `collections.posts.permalink`).
 
 ### Collections config
 
@@ -135,7 +138,7 @@ Posts are listed in reverse chronological order. The permalink pattern is `/post
 collections:
   posts:
     output: true
-    permalink: /posts/:title
+    permalink: /projects/:title
 ```
 
 ---
@@ -195,8 +198,12 @@ Only plugins on the [GitHub Pages supported list](https://pages.github.com/versi
 ### Add a new project post
 1. Create `_posts/YYYY-MM-DD-project-name.md`
 2. Include front matter: `layout: post`, `title`, `date`, `categories: projects`
-3. Optionally add `image: /images/filename.jpg` to the front matter — the image will appear above the post title in the Projects listing and above the content on the post page
-4. Drop the image file in `images/` if using one
+3. Optionally add any of these fields to the front matter:
+   - `image: /images/filename.jpg` — appears above the post title in the Projects listing and at the top of the post page
+   - `description: "Short summary"` — shown as a subtitle on the project card
+   - `project_type: "Software"` — label displayed on the project card
+   - `location: "City, State"` — shown with a 📍 pin on the project card
+4. Drop any image file in `images/`
 5. Write content in Markdown below the front matter
 6. The post will automatically appear on the Projects page
 
