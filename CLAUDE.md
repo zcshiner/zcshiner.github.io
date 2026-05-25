@@ -86,8 +86,8 @@ zcshiner.github.io/
 │   └── YYYY-MM-DD-title.md
 │
 ├── assets/
-│   └── css/
-│       └── style.scss   # Global stylesheet — imports minima, adds .post-featured-image styles
+│   └── main.scss        # Global stylesheet — imports minima, adds post image and other shared styles
+│                        # IMPORTANT: Minima links /assets/main.css, so this must be assets/main.scss
 │
 ├── images/              # Site images (referenced as /images/filename.jpg)
 │

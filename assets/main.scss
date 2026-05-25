@@ -1,0 +1,15 @@
+---
+---
+@import "minima";
+
+img.post-img-full  { width: 100%; display: block; margin: 0 auto 1em; }
+img.post-img-right { float: right; width: 40%; margin: 0 0 1em 1.5em; }
+img.post-img-left  { float: left;  width: 40%; margin: 0 1.5em 1em 0; }
+
+img.post-featured-image {
+  width: 100%;
+  max-height: 300px;
+  object-fit: cover;
+  display: block;
+  margin-bottom: 0.5em;
+}
