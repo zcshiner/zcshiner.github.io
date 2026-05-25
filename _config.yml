@@ -1,16 +1,13 @@
 title: Portfolio
 author: © 2026 Zachary Shiner
-description: >-
-  Write an awesome description for your new site here.
 baseurl: "" # the subpath of your site, e.g. /blog
-url: "zcshiner.github.io" # the base hostname & protocol for your site, e.g. http://example.com
+url: "zcshiner.github.io"
+repository: "zcshiner/zcshiner.github.io"
 
 linkedin_username:  zcshiner
 github_username: zcshiner
 
 markdown: kramdown
-# theme: minima
-# remote_theme: "jekyll/minima@1e8a445"
 remote_theme: "jekyll/minima@c6e74bb"
 
 plugins:
@@ -24,6 +21,7 @@ collections:
 header_pages:
     - index.md
     - projects.md
+    - photography.md
     - patents.md
     - contact.md
 
