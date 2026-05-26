@@ -18,7 +18,7 @@ I lead the development of most of the high-accuracy percutaneous targeting instr
 
 **Product Page:** [Product Overview](https://www.globusmedical.com/products/anthem-distal-femur-fracture-system/)
 
-<div class="post-img-grid post-img-grid-wide">
+<div class="post-img-grid-wide">
   <div class="video-embed">
     <iframe src="https://www.youtube-nocookie.com/embed/sY36V-Qr1JE?rel=0" title="ANTHEM Distal Femur Fracture System" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen loading="lazy"></iframe>
   </div>

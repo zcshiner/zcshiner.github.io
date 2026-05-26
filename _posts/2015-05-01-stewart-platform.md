@@ -16,7 +16,7 @@ I built a Stewart platform as a final project in my senior elective class, *ME 4
 
 A Stewart Platform is a six degree of freedom manipulator commonly used in motion simulators and positioning applications. Six independent computer-controlled actuators work together to precisely control the position of a platform. The platform and demonstration software was designed to simulate wave-like motion that a helipad-equipped vessel might experience while at sea. The simulated motion was used as part of a research project to train quadcopter landing algorithms for maritime use.
 
-<div class="post-img-grid post-img-grid-wide">
+<div class="post-img-grid-wide">
   <div class="video-embed">
     <iframe src="https://www.youtube-nocookie.com/embed/kFUClV3Ajeg?rel=0&autoplay=1&mute=1" title="Stewart Platform" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen loading="lazy"></iframe>
   </div>

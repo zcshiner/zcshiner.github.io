@@ -18,7 +18,7 @@ At Industrial Scientific, we had a need for an internal tool to quiet the alarm 
 
 The Alarm Muffler is manufactured from injection molded ABS. It's prominently featured in many training videos online and available for purchase [at Grainger](https://www.grainger.com/product/INDUSTRIAL-SCIENTIFIC-Alarm-Muffler-Alarm-Muffler-52HP60).
 
-<div class="post-img-grid post-img-grid-wide">
+<div class="post-img-grid-wide">
   <img src="/images/alarm-muffler-cad-model.jpg" alt="Early CAD model in Creo">
   <img src="/images/alarm-muffler-acoustic-pyramids.jpg" alt="Internal Acoustic Pyramids">
   <img src="/images/alarm-muffler-spl-readings.jpg" alt="SPL Readings">

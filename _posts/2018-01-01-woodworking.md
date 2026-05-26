@@ -16,7 +16,7 @@ In 2018 I designed and fabricated a coffee table.
 
 I adapted plans from a woodworking magazine and modeled the design in Fusion 360. I used the equipment and expertise at [Philadelphia Woodworks](https://www.philadelphiawoodworks.com/) in Manayunk, PA to transform rough-cut hardwood lumber into a beautiful piece of furniture. The table is constructed from cherry, features soft-close drawers made from poplar, and minimizes the use of screws.
 
-<div class="post-img-grid post-img-grid-wide">
+<div class="post-img-grid-wide">
   <img src="/images/woodworking-cad-model.png" alt="CAD Model">
   <img src="/images/woodworking-first-cuts.jpg" alt="First Cuts">
   <img src="/images/woodworking-mortise-layout.jpg" alt="Mortise Layout">
