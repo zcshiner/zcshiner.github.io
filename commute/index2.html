@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Zach's Commute Stats — Jun 6, 2026</title>
+<style>
+  :root {
+    --cr: #7B388C;
+    --ol: #FD8A03;
+    --cr-light: #f0e8f4;
+    --ol-light: #fff4e5;
+    --bg: #f8f8f8;
+    --card: #ffffff;
+    --border: #e0e0e0;
+    --text: #1a1a1a;
+    --muted: #666;
+    --amber: #d97706;
+    --amber-bg: #fef3c7;
+    --teal: #0d9488;
+    --teal-bg: #ccfbf1;
+    --blue: #2563eb;
+    --blue-bg: #dbeafe;
+    --red: #dc2626;
+    --red-bg: #fee2e2;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: var(--bg); color: var(--text); }
+
+  .header { background: #1a1a2e; color: white; padding: 32px 24px 24px; text-align: center; }
+  .header h1 { font-size: 1.6rem; font-weight: 700; letter-spacing: -0.5px; }
+  .header .subtitle { color: #aaa; font-size: 0.85rem; margin-top: 6px; }
+  .header .totals { display: flex; justify-content: center; gap: 32px; margin-top: 20px; flex-wrap: wrap; }
+  .header .stat { text-align: center; }
+  .header .stat .val { font-size: 2rem; font-weight: 800; color: white; }
+  .header .stat .lbl { font-size: 0.75rem; color: #aaa; text-transform: uppercase; letter-spacing: 0.5px; }
+
+  .tabs { display: flex; background: #111; border-bottom: 2px solid #333; overflow-x: auto; }
+  .tab { padding: 12px 24px; cursor: pointer; font-size: 0.9rem; font-weight: 600; color: #888; white-space: nowrap; border-bottom: 3px solid transparent; margin-bottom: -2px; transition: all 0.15s; }
+  .tab:hover { color: #ccc; }
+  .tab.active-cr { color: #c084d4; border-bottom-color: var(--cr); }
+  .tab.active-ol { color: #fdba74; border-bottom-color: var(--ol); }
+  .tab.active-streaks { color: #6ee7b7; border-bottom-color: #10b981; }
+
+  .panel { display: none; padding: 24px; max-width: 900px; margin: 0 auto; }
+  .panel.active { display: block; }
+
+  .metric-row { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 24px; }
+  .metric { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 16px 20px; flex: 1; min-width: 140px; }
+  .metric .val { font-size: 1.8rem; font-weight: 800; }
+  .metric .lbl { font-size: 0.75rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.4px; margin-top: 2px; }
+  .metric.cr .val { color: var(--cr); }
+  .metric.ol .val { color: var(--ol); }
+
+  .section { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 20px; margin-bottom: 20px; }
+  .section h2 { font-size: 1rem; font-weight: 700; margin-bottom: 16px; }
+
+  /* Bars */
+  .bar-row { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
+  .bar-label { width: 48px; font-size: 0.8rem; font-weight: 600; text-align: right; flex-shrink: 0; }
+  .bar-track { flex: 1; background: #f0f0f0; border-radius: 4px; height: 22px; position: relative; overflow: hidden; }
+  .bar-fill { height: 100%; border-radius: 4px; transition: width 0.4s ease; display: flex; align-items: center; padding-left: 8px; }
+  .bar-fill span { font-size: 0.72rem; font-weight: 600; color: white; white-space: nowrap; }
+  .bar-count { width: 32px; font-size: 0.78rem; color: var(--muted); text-align: right; flex-shrink: 0; }
+
+  /* Insight boxes */
+  .insight { border-radius: 8px; padding: 14px 16px; margin-bottom: 12px; border-left: 4px solid; }
+  .insight.amber { background: var(--amber-bg); border-color: var(--amber); }
+  .insight.teal { background: var(--teal-bg); border-color: var(--teal); }
+  .insight.blue { background: var(--blue-bg); border-color: var(--blue); }
+  .insight.red { background: var(--red-bg); border-color: var(--red); }
+  .insight.purple { background: var(--cr-light); border-color: var(--cr); }
+  .insight.orange { background: var(--ol-light); border-color: var(--ol); }
+  .insight strong { font-size: 0.85rem; font-weight: 700; display: block; margin-bottom: 4px; }
+  .insight p { font-size: 0.82rem; color: var(--text); line-height: 1.5; }
+
+  /* Tags */
+  .tag { display: inline-block; font-size: 0.7rem; font-weight: 700; padding: 2px 8px; border-radius: 999px; margin-left: 6px; vertical-align: middle; }
+  .tag.fav { background: var(--amber-bg); color: var(--amber); }
+  .tag.repeat { background: var(--teal-bg); color: var(--teal); }
+  .tag.once { background: #f0f0f0; color: #888; }
+  .tag.streak { background: var(--cr-light); color: var(--cr); }
+  .tag.new { background: #dcfce7; color: #16a34a; }
+
+  /* Streak cards */
+  .streak-card { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 16px; margin-bottom: 12px; display: flex; align-items: center; gap: 16px; }
+  .streak-badge { width: 52px; height: 52px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-direction: column; flex-shrink: 0; }
+  .streak-badge .days { font-size: 1.2rem; font-weight: 900; }
+  .streak-badge .days-lbl { font-size: 0.55rem; font-weight: 700; text-transform: uppercase; }
+  .streak-badge.cr { background: var(--cr-light); color: var(--cr); }
+  .streak-badge.ol { background: var(--ol-light); color: var(--ol); }
+  .streak-info .car { font-size: 1.1rem; font-weight: 700; }
+  .streak-info .dates { font-size: 0.78rem; color: var(--muted); margin-top: 2px; }
+  .streak-info .note { font-size: 0.78rem; color: var(--muted); margin-top: 4px; font-style: italic; }
+
+  /* Heatmap */
+  .heatmap-wrap { overflow-x: auto; }
+  .heatmap { display: grid; grid-template-columns: 28px repeat(53, 12px); gap: 2px; font-size: 0.6rem; align-items: center; }
+  .hm-dow { color: var(--muted); text-align: right; padding-right: 4px; font-size: 0.6rem; line-height: 12px; }
+  .hm-cell { width: 12px; height: 12px; border-radius: 2px; }
+  .hm-cell.empty { background: transparent; }
+  .hm-cell.none { background: #efefef; }
+  .hm-cell.c1 { background: #d4b8e0; }
+  .hm-cell.c2 { background: #a96bbf; }
+  .hm-cell.c3 { background: #7B388C; }
+  .hm-cell.ol1 { background: #fcd19b; }
+  .hm-cell.ol2 { background: #fd9f3d; }
+  .hm-cell.ol3 { background: #FD8A03; }
+  .hm-month-row { display: flex; gap: 2px; margin-bottom: 4px; padding-left: 30px; }
+  .hm-month-lbl { font-size: 0.6rem; color: var(--muted); }
+
+  /* Builder donut */
+  .donut-wrap { display: flex; align-items: center; gap: 24px; flex-wrap: wrap; }
+  .donut-legend { flex: 1; min-width: 160px; }
+  .legend-row { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
+  .legend-dot { width: 12px; height: 12px; border-radius: 3px; flex-shrink: 0; }
+  .legend-lbl { font-size: 0.82rem; flex: 1; }
+  .legend-pct { font-size: 0.82rem; font-weight: 700; color: var(--muted); }
+
+  /* 882 timeline */
+  .timeline { position: relative; padding-left: 20px; }
+  .timeline::before { content: ''; position: absolute; left: 6px; top: 0; bottom: 0; width: 2px; background: #e0e0e0; }
+  .tl-item { position: relative; margin-bottom: 12px; }
+  .tl-dot { position: absolute; left: -17px; top: 4px; width: 10px; height: 10px; border-radius: 50%; }
+  .tl-dot.present { background: var(--cr); }
+  .tl-dot.absent { background: #e0e0e0; border: 2px solid #ccc; }
+  .tl-dot.special { background: var(--amber); }
+  .tl-lbl { font-size: 0.8rem; font-weight: 600; }
+  .tl-note { font-size: 0.73rem; color: var(--muted); }
+  .tl-gap { font-size: 0.73rem; font-weight: 600; padding: 4px 10px; border-radius: 4px; display: inline-block; margin: 4px 0; }
+  .tl-gap.big { background: var(--red-bg); color: var(--red); }
+  .tl-gap.medium { background: var(--amber-bg); color: var(--amber); }
+  .tl-gap.small { background: #f0f0f0; color: #666; }
+
+  .section-note { font-size: 0.75rem; color: var(--muted); margin-top: 12px; font-style: italic; }
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media (max-width: 600px) { .two-col { grid-template-columns: 1fr; } }
+
+  svg text { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>🚂 Zach's Commute Stats</h1>
+  <div class="subtitle">Rolling stock log · as of June 6, 2026 · a niche hobby, proudly</div>
+  <div class="totals">
+    <div class="stat"><div class="val">177</div><div class="lbl">Total Rides</div></div>
+    <div class="stat"><div class="val">76</div><div class="lbl">Unique Cars</div></div>
+    <div class="stat"><div class="val">2</div><div class="lbl">Fleets Tracked</div></div>
+    <div class="stat"><div class="val">195</div><div class="lbl">Days of Logging</div></div>
+  </div>
+</div>
+
+<div class="tabs">
+  <div class="tab active-cr" onclick="showTab('cr')">🟣 Commuter Rail</div>
+  <div class="tab" onclick="showTab('ol')">🟠 Orange Line</div>
+  <div class="tab" onclick="showTab('streaks')">⚡ Streaks &amp; Flukes</div>
+</div>
+
+<!-- ===================== CR PANEL ===================== -->
+<div class="panel active" id="panel-cr">
+
+  <div class="metric-row">
+    <div class="metric cr"><div class="val">159</div><div class="lbl">CR Rides</div></div>
+    <div class="metric cr"><div class="val">59</div><div class="lbl">Unique Cars</div></div>
+    <div class="metric cr"><div class="val">13.3%</div><div class="lbl">Fleet Coverage</div></div>
+    <div class="metric cr"><div class="val">31</div><div class="lbl">One-hit Wonders</div></div>
+  </div>
+
+  <div class="insight amber">
+    <strong>🏆 The Spirit Car: #882</strong>
+    <p>19 appearances. 11.9% of all CR rides. Day one of logging: Car 882. Most recent ride: June 3. It was there when you started. It will be there when you end. Embrace it.</p>
+  </div>
+
+  <div class="insight purple">
+    <strong>📊 Fleet Coverage: 59 of 442 active coaches</strong>
+    <p>In 195 days of logging you've personally ridden 13.3% of the entire active Commuter Rail fleet. The other 86.7% are out there, waiting. You have time.</p>
+  </div>
+
+  <div class="section">
+    <h2>Top 15 Cars by Ride Count</h2>
+    <div id="cr-bars"></div>
+    <p class="section-note">Top 6 cars account for 42% of all CR rides. Car 882 alone: nearly 12%.</p>
+  </div>
+
+  <div class="section">
+    <h2>Monthly Ride Volume</h2>
+    <div id="cr-monthly-bars"></div>
+  </div>
+
+  <div class="section">
+    <h2>Rides Heatmap — Commuter Rail</h2>
+    <p style="font-size:0.75rem;color:var(--muted);margin-bottom:10px;">Each cell = one logged day. Darker purple = more rides that day.</p>
+    <div class="heatmap-wrap" id="cr-heatmap"></div>
+  </div>
+
+  <div class="two-col">
+    <div class="section">
+      <h2>By Builder (trips)</h2>
+      <div id="builder-chart"></div>
+    </div>
+    <div class="section">
+      <h2>Fleet Archaeology</h2>
+      <div class="insight blue" style="margin-bottom:8px;">
+        <strong>Oldest cars ridden</strong>
+        <p>Cars <b>369, 373, 374</b> — Bombardier BTC-1A, built <b>1987</b>. Nearly 40 years old. Still in revenue service. Respect.</p>
+      </div>
+      <div class="insight teal">
+        <strong>Cab cars: 1600 &amp; 1602</strong>
+        <p>Bombardier CTC-1Bs, 1989–90. Controls <em>deactivated</em>. You rode the front of the train in a car that can no longer drive. Iconic.</p>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ===================== OL PANEL ===================== -->
+<div class="panel" id="panel-ol">
+
+  <div class="metric-row">
+    <div class="metric ol"><div class="val">18</div><div class="lbl">OL Rides</div></div>
+    <div class="metric ol"><div class="val">17</div><div class="lbl">Unique Cars</div></div>
+    <div class="metric ol"><div class="val">11.2%</div><div class="lbl">Fleet Coverage</div></div>
+    <div class="metric ol"><div class="val">16</div><div class="lbl">One-hit Wonders</div></div>
+  </div>
+
+  <div class="insight orange">
+    <strong>🍊 Young dataset, impressive variety</strong>
+    <p>Logging started May 11. In less than a month: 17 unique cars out of 18 rides. A 94.4% variety rate. The Orange Line is not playing favorites — yet.</p>
+  </div>
+
+  <div class="insight teal">
+    <strong>The only repeat: Car 1547</strong>
+    <p>May 12 and May 21. Out of 18 rides, exactly one car has dared to show up twice. Car 1547 is either flattered or oblivious. Probably oblivious.</p>
+  </div>
+
+  <div class="insight blue">
+    <strong>Fleet coverage: 17 of 152 CRRC cars</strong>
+    <p>11.2% of the entire Orange Line fleet in under four weeks. At this rate — well, it won't keep up. But it's a compelling opening act.</p>
+  </div>
+
+  <div class="section">
+    <h2>All Orange Line Cars Ridden</h2>
+    <div id="ol-bars"></div>
+    <p class="section-note">All 17 unique cars are CRRC #14 series (1400–1551), built 2018–2025.</p>
+  </div>
+
+  <div class="section">
+    <h2>Rides Heatmap — Orange Line</h2>
+    <p style="font-size:0.75rem;color:var(--muted);margin-bottom:10px;">Each cell = one logged day. Darker orange = more rides.</p>
+    <div class="heatmap-wrap" id="ol-heatmap"></div>
+  </div>
+
+  <div class="section">
+    <h2>Monthly Volume</h2>
+    <div id="ol-monthly-bars"></div>
+  </div>
+
+</div>
+
+<!-- ===================== STREAKS PANEL ===================== -->
+<div class="panel" id="panel-streaks">
+
+  <div class="insight red">
+    <strong>☄️ The Great Drought: Car 882 goes dark</strong>
+    <p>Last seen: <b>March 30, 2026</b>. Next seen: <b>June 3, 2026</b>. Gap: <b>65 calendar days</b>. No explanation. No apology. Just 65 days of silence, then Car 882 walked back onto your platform like nothing happened.</p>
+  </div>
+
+  <div class="insight amber">
+    <strong>🎄 The Dec 19 Double: #882, twice in one day</strong>
+    <p>Morning train: Car 882. Evening train: also Car 882. The probability of matching on any given two-trip day is roughly 0.23% (1-in-442). Across your 58 two-trip days logged: a ~12% chance this ever happens at all. It happened on December 19th. Cherish this.</p>
+  </div>
+
+  <div class="section">
+    <h2>Car 882: A Timeline</h2>
+    <div class="timeline" id="timeline-882"></div>
+  </div>
+
+  <div class="section">
+    <h2>All Streaks — Same Car on Consecutive Logged Days</h2>
+    <div id="streak-cards"></div>
+    <p class="section-note">"Logged days" = days you rode and recorded, not calendar days. A weekend break doesn't break a streak.</p>
+  </div>
+
+  <div class="insight teal">
+    <strong>🏅 Streak leaderboard</strong>
+    <p>Car 882 holds the record: 5 consecutive logged days (Dec 15–22). Car 830 is second at 4 (May 7–11). Car 808 made the top 3 twice. Car 778 cheekily appeared in two separate 2-day streaks. The 800s are competitive.</p>
+  </div>
+
+</div>
+
+<script>
+// ===================== DATA =====================
+const crTopCars = [["882",19],["808",11],["734",11],["778",10],["755",8],["830",8],["776",6],["805",6],["883",4],["723",4],["749",3],["881",3],["1602",3],["774",3],["816",3]];
+const crMonthly = {"2025-11":3,"2025-12":24,"2026-01":33,"2026-02":16,"2026-03":28,"2026-04":35,"2026-05":18,"2026-06":2};
+const olTopCars = [["1547",2],["1425",1],["1429",1],["1540",1],["1437",1],["1536",1],["1487",1],["1445",1],["1485",1],["1503",1],["1415",1],["1417",1],["1407",1],["1521",1],["1447",1],["1538",1],["1462",1]];
+const olMonthly = {"2026-05":13,"2026-06":5};
+const crHeatmap = {"2025-11-24":1,"2025-11-25":2,"2025-12-01":2,"2025-12-02":2,"2025-12-03":2,"2025-12-06":2,"2025-12-08":2,"2025-12-09":2,"2025-12-10":1,"2025-12-14":1,"2025-12-15":2,"2025-12-16":1,"2025-12-17":1,"2025-12-19":2,"2025-12-22":2,"2025-12-30":1,"2025-12-31":1,"2026-01-01":1,"2026-01-02":2,"2026-01-05":2,"2026-01-06":2,"2026-01-07":2,"2026-01-08":2,"2026-01-09":2,"2026-01-12":2,"2026-01-13":2,"2026-01-14":2,"2026-01-15":2,"2026-01-16":2,"2026-01-20":2,"2026-01-21":1,"2026-01-22":2,"2026-01-25":2,"2026-01-27":1,"2026-01-28":2,"2026-02-05":2,"2026-02-06":1,"2026-02-09":2,"2026-02-10":1,"2026-02-11":2,"2026-02-12":1,"2026-02-13":2,"2026-02-18":1,"2026-02-19":2,"2026-02-20":2,"2026-03-02":2,"2026-03-03":1,"2026-03-04":2,"2026-03-05":1,"2026-03-06":2,"2026-03-09":2,"2026-03-10":1,"2026-03-11":2,"2026-03-13":1,"2026-03-16":1,"2026-03-18":1,"2026-03-19":1,"2026-03-20":2,"2026-03-23":2,"2026-03-24":1,"2026-03-27":2,"2026-03-30":2,"2026-03-31":2,"2026-04-01":2,"2026-04-02":2,"2026-04-03":2,"2026-04-06":2,"2026-04-07":2,"2026-04-08":2,"2026-04-09":2,"2026-04-10":1,"2026-04-13":2,"2026-04-14":2,"2026-04-16":1,"2026-04-17":2,"2026-04-18":1,"2026-04-21":2,"2026-04-22":1,"2026-04-23":1,"2026-04-24":1,"2026-04-26":1,"2026-04-27":1,"2026-04-28":1,"2026-04-29":2,"2026-04-30":2,"2026-05-04":1,"2026-05-05":3,"2026-05-06":2,"2026-05-07":1,"2026-05-08":1,"2026-05-09":1,"2026-05-11":2,"2026-05-12":1,"2026-05-14":1,"2026-05-20":1,"2026-05-21":2,"2026-05-26":2,"2026-06-02":1,"2026-06-03":1};
+const olHeatmap = {"2026-05-05":1,"2026-05-11":2,"2026-05-12":1,"2026-05-14":2,"2026-05-19":2,"2026-05-20":2,"2026-05-21":2,"2026-05-26":1,"2026-06-02":1,"2026-06-03":2,"2026-06-04":1,"2026-06-05":1};
+const crStreaks = [["2025-12-15","2025-12-22",5,["882"]],["2026-05-07","2026-05-11",4,["830"]],["2026-01-01","2026-01-05",3,["808"]],["2026-01-08","2026-01-12",3,["882"]],["2025-12-06","2025-12-08",2,["808"]],["2026-01-15","2026-01-16",2,["734"]],["2026-02-20","2026-03-02",2,["776"]],["2026-03-06","2026-03-09",2,["778"]],["2026-03-20","2026-03-23",2,["778"]],["2026-04-03","2026-04-06",2,["755"]]];
+const builderTrips = {"Rotem":80,"Kawasaki":68,"Bombardier":11};
+
+// ===================== HELPERS =====================
+function fmtDate(iso) {
+  const [y,m,d] = iso.split('-');
+  const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  return `${months[+m-1]} ${+d}, ${y}`;
+}
+
+// ===================== BARS =====================
+function renderBars(containerId, data, maxVal, color) {
+  const el = document.getElementById(containerId);
+  el.innerHTML = '';
+  data.forEach(([car, cnt]) => {
+    const pct = (cnt / maxVal * 100).toFixed(1);
+    const isStar = car === '882';
+    const isRepeat = cnt > 1;
+    const row = document.createElement('div');
+    row.className = 'bar-row';
+    row.innerHTML = `
+      <div class="bar-label">${car}${isStar ? ' ⭐' : ''}</div>
+      <div class="bar-track">
+        <div class="bar-fill" style="width:${pct}%;background:${color}">
+          <span>${cnt} ride${cnt>1?'s':''}</span>
+        </div>
+      </div>
+      <div class="bar-count">${cnt}</div>`;
+    el.appendChild(row);
+  });
+}
+
+function renderMonthlyBars(containerId, data, color) {
+  const el = document.getElementById(containerId);
+  const entries = Object.entries(data);
+  const maxVal = Math.max(...entries.map(e=>e[1]));
+  const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  el.innerHTML = '';
+  entries.forEach(([ym, cnt]) => {
+    const [y,m] = ym.split('-');
+    const label = `${months[+m-1]} '${y.slice(2)}`;
+    const pct = (cnt / maxVal * 100).toFixed(1);
+    const row = document.createElement('div');
+    row.className = 'bar-row';
+    row.innerHTML = `
+      <div class="bar-label" style="width:56px;font-size:0.72rem">${label}</div>
+      <div class="bar-track">
+        <div class="bar-fill" style="width:${pct}%;background:${color}">
+          <span>${cnt}</span>
+        </div>
+      </div>
+      <div class="bar-count">${cnt}</div>`;
+    el.appendChild(row);
+  });
+}
+
+// ===================== BUILDER CHART =====================
+function renderBuilderChart() {
+  const el = document.getElementById('builder-chart');
+  const total = Object.values(builderTrips).reduce((a,b)=>a+b,0);
+  const colors = {'Rotem':'#7B388C','Kawasaki':'#5b8dd9','Bombardier':'#e67e22'};
+  const entries = Object.entries(builderTrips).sort((a,b)=>b[1]-a[1]);
+  let html = '';
+  entries.forEach(([builder, cnt]) => {
+    const pct = (cnt/total*100).toFixed(1);
+    html += `<div class="bar-row">
+      <div class="bar-label" style="width:80px;font-size:0.72rem">${builder}</div>
+      <div class="bar-track">
+        <div class="bar-fill" style="width:${pct}%;background:${colors[builder]}">
+          <span>${pct}%</span>
+        </div>
+      </div>
+      <div class="bar-count" style="width:40px">${cnt}</div>
+    </div>`;
+  });
+  html += `<p style="font-size:0.72rem;color:var(--muted);margin-top:8px;">Half your rides are on Rotem-built cars. The Rotem Republic is real.</p>`;
+  el.innerHTML = html;
+}
+
+// ===================== HEATMAP =====================
+function renderHeatmap(containerId, heatmapData, colorClass, startDate, endDate) {
+  const el = document.getElementById(containerId);
+  // Build week-based grid from startDate to endDate
+  // startDate = first Sunday on or before our first date
+  const start = new Date(startDate + 'T00:00:00');
+  const end = new Date(endDate + 'T00:00:00');
+  // Rewind to Sunday
+  const gridStart = new Date(start);
+  gridStart.setDate(gridStart.getDate() - gridStart.getDay());
+
+  const weeks = [];
+  let cur = new Date(gridStart);
+  while (cur <= end) {
+    const week = [];
+    for (let i = 0; i < 7; i++) {
+      const iso = cur.toISOString().slice(0,10);
+      const inRange = cur >= start && cur <= end;
+      week.push({ iso, inRange, count: heatmapData[iso] || 0 });
+      cur.setDate(cur.getDate() + 1);
+    }
+    weeks.push(week);
+  }
+
+  const DAYS = ['S','M','T','W','T','F','S'];
+  // Month labels row
+  let monthLabels = '<div style="display:flex;gap:2px;margin-bottom:4px;padding-left:30px;">';
+  let lastMonth = -1;
+  weeks.forEach((week, wi) => {
+    const firstInWeek = week.find(d=>d.inRange);
+    if (firstInWeek) {
+      const m = new Date(firstInWeek.iso+'T00:00:00').getMonth();
+      const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+      if (m !== lastMonth) {
+        monthLabels += `<span style="font-size:0.6rem;color:var(--muted);min-width:${(weeks.length-wi)*14}px">${months[m]}</span>`;
+        lastMonth = m;
+      }
+    }
+  });
+  monthLabels += '</div>';
+
+  // Grid
+  let grid = '<div style="display:grid;grid-template-columns:28px repeat(' + weeks.length + ',14px);gap:2px;">';
+  for (let dow = 0; dow < 7; dow++) {
+    grid += `<div style="font-size:0.6rem;color:var(--muted);text-align:right;padding-right:4px;line-height:14px;">${DAYS[dow]}</div>`;
+    weeks.forEach(week => {
+      const day = week[dow];
+      let cls = 'hm-cell';
+      if (!day.inRange) cls += ' empty';
+      else if (day.count === 0) cls += ' none';
+      else if (day.count === 1) cls += ` ${colorClass}1`;
+      else if (day.count === 2) cls += ` ${colorClass}2`;
+      else cls += ` ${colorClass}3`;
+      const title = day.inRange && day.count > 0 ? `title="${day.iso}: ${day.count} ride${day.count>1?'s':''}"` : '';
+      grid += `<div class="${cls}" ${title}></div>`;
+    });
+  }
+  grid += '</div>';
+
+  el.innerHTML = monthLabels + grid;
+}
+
+// ===================== STREAK CARDS =====================
+function renderStreakCards() {
+  const el = document.getElementById('streak-cards');
+  const labels = ['🥇','🥈','🥉','','','','','','',''];
+  const notes = {
+    5: "Five consecutive logged days. A dynasty, not a streak.",
+    4: "Four in a row. Car 830 quietly had an incredible May.",
+    3: "Three days running. Dependable.",
+    2: "Back-to-back. Noted."
+  };
+  let html = '';
+  crStreaks.forEach(([start, end, len, cars], i) => {
+    const medal = labels[i] || '';
+    const car = cars[0];
+    const isStar = car === '882';
+    html += `<div class="streak-card">
+      <div class="streak-badge cr">
+        <div class="days">${len}</div>
+        <div class="days-lbl">days</div>
+      </div>
+      <div class="streak-info">
+        <div class="car">Car ${car} ${isStar ? '⭐' : medal}</div>
+        <div class="dates">${fmtDate(start)} → ${fmtDate(end)}</div>
+        <div class="note">${notes[len] || ''}</div>
+      </div>
+    </div>`;
+  });
+  el.innerHTML = html;
+}
+
+// ===================== 882 TIMELINE =====================
+function renderTimeline() {
+  const el = document.getElementById('timeline-882');
+  const events = [
+    {dot:'present', lbl:'Nov 24, 2025', note:'Day one. Car 882. Immediately.'},
+    {dot:'present', lbl:'Dec 15–22', note:'5 consecutive logged days. The Dynasty.'},
+    {dot:'special', lbl:'Dec 19', note:'AM ride: 882. PM ride: also 882. The Double.'},
+    {dot:'absent', gap:'17 days', gapCls:'small', note:'Dec 22 → Jan 8'},
+    {dot:'present', lbl:'Jan 8–12', note:'3 more consecutive days. Settling in.'},
+    {dot:'absent', gap:'32 days', gapCls:'medium', note:'Jan 12 → Feb 13'},
+    {dot:'present', lbl:'Feb–Mar', note:'Scattered appearances. Keeps things interesting.'},
+    {dot:'absent', gap:'65 calendar days', gapCls:'big', note:'Mar 30 → Jun 3 · The Great Drought'},
+    {dot:'present', lbl:'Jun 3, 2026', note:'Returns. Says nothing.'},
+  ];
+  let html = '';
+  events.forEach(ev => {
+    if (ev.gap) {
+      html += `<div class="tl-item">
+        <div class="tl-dot absent"></div>
+        <span class="tl-gap ${ev.gapCls}">⏳ ${ev.gap}</span>
+        <div class="tl-note">${ev.note}</div>
+      </div>`;
+    } else {
+      html += `<div class="tl-item">
+        <div class="tl-dot ${ev.dot}"></div>
+        <div class="tl-lbl">${ev.lbl}</div>
+        <div class="tl-note">${ev.note}</div>
+      </div>`;
+    }
+  });
+  el.innerHTML = html;
+}
+
+// ===================== TABS =====================
+function showTab(tab) {
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t => { t.className = 'tab'; });
+  document.getElementById('panel-' + tab).classList.add('active');
+  const tabs = document.querySelectorAll('.tab');
+  const idx = tab === 'cr' ? 0 : tab === 'ol' ? 1 : 2;
+  const cls = tab === 'cr' ? 'active-cr' : tab === 'ol' ? 'active-ol' : 'active-streaks';
+  tabs[idx].classList.add(cls);
+}
+
+// ===================== INIT =====================
+renderBars('cr-bars', crTopCars, 19, '#7B388C');
+renderMonthlyBars('cr-monthly-bars', crMonthly, '#7B388C');
+renderBars('ol-bars', olTopCars, 2, '#FD8A03');
+renderMonthlyBars('ol-monthly-bars', olMonthly, '#FD8A03');
+renderBuilderChart();
+renderHeatmap('cr-heatmap', crHeatmap, 'c', '2025-11-24', '2026-06-03');
+renderHeatmap('ol-heatmap', olHeatmap, 'ol', '2026-05-05', '2026-06-05');
+renderStreakCards();
+renderTimeline();
+</script>
+</body>
+</html>
