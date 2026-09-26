@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "jekyll",
+      "runtimeExecutable": "sh",
+      "runtimeArgs": ["-c", "docker run --rm -v \"/Users/zcshiner/Documents/Docker Volumes/zcshiner.github.io\":/srv/jekyll -u $(id -u):$(id -g) -p 4000:4000 jekyll-z serve --host 0.0.0.0"],
+      "port": 4000
+    }
+  ]
+}
