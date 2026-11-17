@@ -3,17 +3,19 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Zach's Commute Stats — Sep 3, 2026</title>
+<title>Zach's Commute Stats — Nov 17, 2026</title>
 <style>
   :root {
     --cr: #7B388C;
     --ol: #FD8A03;
     --rl: #FA2D27;
+    --gl: #008150;
     --bus: #FFFF00;
     --bus-ink: #8a7a00;
     --cr-light: #f0e8f4;
     --ol-light: #fff4e5;
     --rl-light: #fdeae9;
+    --gl-light: #e3f3ec;
     --bus-light: #fdfdd0;
     --bg: #f8f8f8;
     --card: #ffffff;
@@ -46,6 +48,7 @@
   .tab.active-cr { color: #c084d4; border-bottom-color: var(--cr); }
   .tab.active-ol { color: #fdba74; border-bottom-color: var(--ol); }
   .tab.active-rl { color: #fca5a1; border-bottom-color: var(--rl); }
+  .tab.active-gl { color: #6fcf9f; border-bottom-color: var(--gl); }
   .tab.active-bus { color: #f2f28a; border-bottom-color: var(--bus); }
   .tab.active-streaks { color: #6ee7b7; border-bottom-color: #10b981; }
 
@@ -69,6 +72,7 @@
   .metric.cr .val { color: var(--cr); }
   .metric.ol .val { color: var(--ol); }
   .metric.rl .val { color: var(--rl); }
+  .metric.gl .val { color: var(--gl); }
   .metric.bus .val { color: var(--bus-ink); }
 
   .section { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 20px; margin-bottom: 20px; }
@@ -92,6 +96,7 @@
   .insight.purple { background: var(--cr-light); border-color: var(--cr); }
   .insight.orange { background: var(--ol-light); border-color: var(--ol); }
   .insight.rl { background: var(--rl-light); border-color: var(--rl); }
+  .insight.gl { background: var(--gl-light); border-color: var(--gl); }
   .insight.bus { background: var(--bus-light); border-color: #d4d400; }
   .insight strong { font-size: 0.85rem; font-weight: 700; display: block; margin-bottom: 4px; }
   .insight p { font-size: 0.82rem; color: var(--text); line-height: 1.5; }
@@ -127,6 +132,7 @@
   .hm-cell { width: 12px; height: 12px; border-radius: 2px; }
   .hm-cell.empty { background: transparent; }
   .hm-cell.none { background: #efefef; }
+  .hm-cell.pre { background: transparent; box-shadow: inset 0 0 0 1px #e6e6e6; }
   .hm-cell.c1 { background: #d4b8e0; }
   .hm-cell.c2 { background: #a96bbf; }
   .hm-cell.c3 { background: #7B388C; }
@@ -139,7 +145,8 @@
   .hm-cell.bus1 { background: #f4f49a; }
   .hm-cell.bus2 { background: #eaea3d; }
   .hm-cell.bus3 { background: #FFFF00; }
-  .hm-legend { display: flex; align-items: center; gap: 4px; font-size: 0.65rem; color: var(--muted); margin-top: 10px; }
+  .hm-legend { display: flex; align-items: center; gap: 4px; font-size: 0.65rem; color: var(--muted); margin-top: 10px; position: sticky; left: 0; width: max-content; }
+  .hm-day { position: sticky; left: 0; z-index: 1; background: var(--card); font-size: 0.6rem; color: var(--muted); text-align: right; padding-right: 4px; }
 
   /* Timeline */
   .timeline { position: relative; padding-left: 20px; }
@@ -191,12 +198,12 @@
 
 <div class="header">
   <h1>🚂 Zach's Commute Stats</h1>
-  <div class="subtitle">Rolling stock log · as of September 3, 2026 · a niche hobby, proudly</div>
+  <div class="subtitle">Rolling stock log · as of November 17, 2026 · a niche hobby, proudly</div>
   <div class="totals">
-    <div class="stat"><div class="val">297</div><div class="lbl">Total Rides</div></div>
-    <div class="stat"><div class="val">165</div><div class="lbl">Unique Cars</div></div>
-    <div class="stat"><div class="val">4</div><div class="lbl">Fleets Tracked</div></div>
-    <div class="stat"><div class="val">284</div><div class="lbl">Days of Logging</div></div>
+    <div class="stat"><div class="val">421</div><div class="lbl">Total Rides</div></div>
+    <div class="stat"><div class="val">225</div><div class="lbl">Unique Cars</div></div>
+    <div class="stat"><div class="val">5</div><div class="lbl">Fleets Tracked</div></div>
+    <div class="stat"><div class="val">359</div><div class="lbl">Days of Logging</div></div>
   </div>
 </div>
 
@@ -204,6 +211,7 @@
   <div class="tab active-cr" onclick="showTab('cr')">🟣 Commuter Rail</div>
   <div class="tab" onclick="showTab('ol')">🟠 Orange Line</div>
   <div class="tab" onclick="showTab('rl')">🔴 Red Line</div>
+  <div class="tab" onclick="showTab('gl')">🟢 Green Line</div>
   <div class="tab" onclick="showTab('bus')">🟡 Bus</div>
   <div class="tab" onclick="showTab('streaks')">⚡ Streaks &amp; Flukes</div>
 </div>
@@ -212,50 +220,50 @@
 <div class="panel active" id="panel-cr">
 
   <div class="metric-row">
-    <div class="metric cr"><div class="val">203</div><div class="lbl">CR Rides</div></div>
-    <div class="metric cr"><div class="val">87</div><div class="lbl">Unique Cars</div></div>
-    <div class="metric cr"><div class="val">19.7%</div><div class="lbl">Fleet Coverage</div></div>
-    <div class="metric cr"><div class="val">49</div><div class="lbl">One-hit Wonders</div></div>
+    <div class="metric cr"><div class="val">240</div><div class="lbl">CR Rides</div></div>
+    <div class="metric cr"><div class="val">98</div><div class="lbl">Unique Cars</div></div>
+    <div class="metric cr"><div class="val">22.2%</div><div class="lbl">Fleet Coverage</div></div>
+    <div class="metric cr"><div class="val">50</div><div class="lbl">One-hit Wonders</div></div>
   </div>
 
   <div class="insight amber">
-    <strong>🏆 The Spirit Car: #882 (still, technically)</strong>
-    <p>19 appearances. 9.4% of all CR rides. Day one of logging: Car 882. Still the all-time leader by eight rides.</p>
-    <p>Last seen: <b>June 3, 2026</b>. That was 92 days ago. The title is uncontested. The car is unaccounted for. See the Streaks &amp; Flukes tab for the ongoing investigation.</p>
+    <strong>🏆 The Spirit Car: #882 (back, briefly)</strong>
+    <p>20 appearances. 8.3% of all CR rides. Day one of logging: Car 882. Still the all-time leader by eight rides.</p>
+    <p>It returned on <b>September 15</b> after 104 days away, logged ride #20, and vanished again. Current absence: 63 days. The title is uncontested. The car remains unreliable. See the Streaks &amp; Flukes tab for the reopened investigation.</p>
   </div>
 
   <div class="insight purple">
-    <strong>📊 Fleet Coverage: 87 of 442 active coaches</strong>
-    <p>In 284 days you've ridden <b>19.7%</b> of the active Commuter Rail fleet — one coach in five. The other 355 remain hypothetical. <b>27</b> of your 87 coaches are new to the log since the June report.</p>
+    <strong>📊 Fleet Coverage: 98 of 442 active coaches</strong>
+    <p>In 359 days you've ridden <b>22.2%</b> of the active Commuter Rail fleet — better than one coach in five. The other 344 remain hypothetical. <b>11</b> of your 98 coaches are new to the log since the September report.</p>
   </div>
 
   <div class="insight teal">
-    <strong>🆕 Rookie of the Year: Car 866</strong>
-    <p>First logged June 17. Four rides by August 13 — enough to tie for ninth all-time against cars that have had ten months to make their case. Fastest accumulation in the dataset.</p>
-    <p>Meanwhile the reigning champion recorded zero rides over the same stretch. Draw your own conclusions.</p>
+    <strong>🆕 Rookie of the Year: Car 859</strong>
+    <p>First logged July 10. Six rides by mid-November — tied for seventh all-time with cars that had an eight-month head start. One of the six was briefly filed under the Orange Line, a line Car 859 has never run on. Clerical. Forgiven.</p>
+    <p>Last edition's rookie, Car 866, has not been seen since August. The sophomore slump is real.</p>
   </div>
 
   <div class="section">
     <h2>Fleet Coverage Over Time</h2>
     <div id="cr-coverage"></div>
-    <p class="section-note">116 of 203 rides were repeats. The curve is climbing anyway: your first 50 rides found 22 new coaches, your last 50 found <b>31</b>. Losing a favorite car is excellent for coverage.</p>
+    <p class="section-note">142 of 240 rides were repeats. Discovery is finally slowing: your first 50 rides found 22 new coaches, your last 50 found <b>17</b> — down from 31 in September. The reruns are back. So, briefly, was Car 882.</p>
   </div>
 
   <div class="section">
     <h2>Top 15 Cars by Ride Count</h2>
     <div id="cr-bars"></div>
-    <p class="section-note">Top 6 cars: 34% of all CR rides, down from 42% in June. The monopoly is softening.</p>
+    <p class="section-note">Top 6 cars: 30% of all CR rides — down from 34% in September and 42% in June. The monopoly continues its slow, dignified decline.</p>
   </div>
 
   <div class="section">
     <h2>Monthly Ride Volume</h2>
     <div id="cr-monthly-bars"></div>
-    <p class="section-note">April peaked at 35. August's 10 is the quietest month since November's three-day cameo.</p>
+    <p class="section-note">April's 35 still stands. August's 10 remains the quietest full month; November is only half over.</p>
   </div>
 
   <div class="section">
     <h2>Rides Heatmap — Commuter Rail</h2>
-    <p style="font-size:0.75rem;color:var(--muted);margin-bottom:10px;">Each cell = one logged day. Darker = more rides.</p>
+    <p style="font-size:0.75rem;color:var(--muted);margin-bottom:10px;">Each cell = one day. Darker = more rides.</p>
     <div class="heatmap-wrap" id="cr-heatmap"></div>
   </div>
 
@@ -268,11 +276,12 @@
       <h2>Fleet Archaeology</h2>
       <div class="insight blue" style="margin-bottom:8px;">
         <strong>Oldest cars ridden</strong>
-        <p>Cars <b>352, 359, 365, 369, 372, 373, 374</b> — Bombardier BTC-1A, built <b>1987</b>. Nearly 40 years old, still collecting fares. Seven of the surviving 39. Respect.</p>
+        <p>Cars <b>352, 353, 359, 363, 365, 369, 372, 373, 374</b> — Bombardier BTC-1A, built <b>1987</b>. Nearly 40 years old, still collecting fares. Nine of the surviving 39. Respect.</p>
       </div>
       <div class="insight teal" style="margin-bottom:8px;">
-        <strong>Cab cars: 1600 &amp; 1602</strong>
-        <p>Bombardier CTC-1Bs, 1989–90. Controls <em>deactivated</em>. You rode the front of the train in a car that can no longer drive. Iconic.</p>
+        <strong>Cab cars: 1600, 1602 &amp; 1715</strong>
+        <p>1600 and 1602 are Bombardier CTC-1Bs, 1989–90, with their controls <em>deactivated</em> — the front of the train in a car that can no longer drive. 1602 has now done this to you three times.</p>
+        <p>Then <b>1715</b>: a Kawasaki CTC-4 from 1990–91 with its controls very much live. Your first cab car that is actually allowed to be in charge.</p>
       </div>
       <div class="insight amber">
         <strong>👻 The Ghost Car: #534</strong>
@@ -288,58 +297,59 @@
 <div class="panel" id="panel-ol">
 
   <div class="metric-row">
-    <div class="metric ol"><div class="val">82</div><div class="lbl">OL Rides</div></div>
-    <div class="metric ol"><div class="val">66</div><div class="lbl">Unique Cars</div></div>
-    <div class="metric ol"><div class="val">43.4%</div><div class="lbl">Fleet Coverage</div></div>
-    <div class="metric ol"><div class="val">53</div><div class="lbl">One-hit Wonders</div></div>
+    <div class="metric ol"><div class="val">137</div><div class="lbl">OL Rides</div></div>
+    <div class="metric ol"><div class="val">86</div><div class="lbl">Unique Cars</div></div>
+    <div class="metric ol"><div class="val">56.6%</div><div class="lbl">Fleet Coverage</div></div>
+    <div class="metric ol"><div class="val">51</div><div class="lbl">One-hit Wonders</div></div>
   </div>
 
   <div class="insight orange">
-    <strong>🍊 The Orange Surge</strong>
-    <p>In June this line had 18 rides and a shrug. It now has <b>82</b> — a <b>356%</b> increase in three months. July's 30 rides are the biggest month any fleet has posted apart from Commuter Rail's April peak of 35.</p>
-    <p>Variety rate: 80.5%. Four rides in five are a car you've never seen before. The Orange Line is not a commute, it's a lottery.</p>
+    <strong>🍊 The Orange Surge, continued</strong>
+    <p>In September this line had 82 rides. It now has <b>137</b> — up 67% in eleven weeks. October's 26 rides are the line's second-biggest month, behind July's 30.</p>
+    <p>Variety rate: 62.8%, down from 80.5%. The lottery still pays out, just increasingly in reruns.</p>
   </div>
 
   <div class="insight teal">
     <strong>🥇 The Pretender: Car 1505</strong>
-    <p>Four rides, spread almost evenly from mid-June to mid-August — roughly one a month, like a subscription. It is the first Orange Line car to establish a personality, and it did so by being mildly punctual about it.</p>
-    <p>Car <b>1547</b>, June's "only repeat," has quietly gone to 3. Eleven other cars have doubled up. The playing-favorites era has begun.</p>
+    <p>Six rides now, spread from mid-June to late October — still roughly one a month, like a subscription nobody remembers signing up for. It remains the only Orange Line car with anything resembling a personality.</p>
+    <p>Car <b>1547</b> holds second with 4. Ten cars sit on 3. In all, <b>35</b> cars have now been ridden more than once, up from 13 in September. The playing-favorites era is in full swing.</p>
   </div>
 
   <div class="insight blue">
-    <strong>Fleet coverage: 66 of 152 CRRC cars</strong>
-    <p><b>43.4%</b> — the highest coverage of any fleet you track, achieved in 101 days. You have ridden nearly half the Orange Line. At this rate the whole fleet falls by roughly next spring, which is a genuinely deranged sentence to be able to write.</p>
-    <p>Lowest car ridden: <b>1402</b>. Cars 1400 and 1401 are out of service with derailment damage, so 1402 is as low as the numbers go. Highest: <b>1551</b> — the final car of the entire order, delivered December 2025. You've ridden both ends of the fleet.</p>
+    <strong>Fleet coverage: 86 of 152 CRRC cars</strong>
+    <p><b>56.6%</b> — more than half the Orange Line, in 190 days. Still the highest coverage of any fleet you track, by a distance.</p>
+    <p><b>The Collector's Curse.</b> The curve is bending. Your first 25 Orange Line rides found 24 new cars; your most recent 25 found 8. This is the coupon collector's problem, and it is undefeated: with 150 cars in service, pure chance predicts about 90 unique cars after 137 rides. You have 86. Pure chance also predicts roughly 840 rides to see every last one — at your current pace, sometime around <b>2029</b>.</p>
+    <p>Lowest car ridden: <b>1402</b>. Cars 1400 and 1401 are out of service with derailment damage, so 1402 is as low as the numbers go. Highest: <b>1551</b> — and now <b>1550</b> as well, so you've ridden both cars of the final pair delivered in December 2025.</p>
   </div>
 
   <div class="section">
     <h2>Fleet Coverage Over Time</h2>
     <div id="ol-coverage"></div>
-    <p class="section-note">Nearly a straight diagonal — four rides in five find a stranger. The one fleet where <b>100% is genuinely in reach</b>: 86 to go, and the order is closed, so the finish line can't run away.</p>
+    <p class="section-note">The diagonal is becoming a curve — new cars now turn up roughly one ride in three, against four in five over the summer. The order is closed, so the finish line can't run away: 66 to go, or strictly 64, with 1400 and 1401 still sidelined.</p>
   </div>
 
   <div class="section">
     <h2>Orange Line Cars with Repeat Rides</h2>
     <div id="ol-bars"></div>
-    <p class="section-note">13 of 66 cars ridden more than once. All CRRC #14 series (1400–1551), built 2018–2025.</p>
+    <p class="section-note">35 of 86 cars ridden more than once. All CRRC #14 series (1400–1551), built 2018–2025.</p>
   </div>
 
   <div class="section">
-    <h2>The One-hit Wonders <span class="tag once">53 cars</span></h2>
+    <h2>The One-hit Wonders <span class="tag once">51 cars</span></h2>
     <p style="font-size:0.75rem;color:var(--muted);margin-bottom:12px;">Ridden exactly once. Statistically most will be back. Emotionally, they owe you nothing.</p>
     <div class="chips" id="ol-once"></div>
   </div>
 
   <div class="section">
     <h2>Rides Heatmap — Orange Line</h2>
-    <p style="font-size:0.75rem;color:var(--muted);margin-bottom:10px;">Each cell = one logged day. Darker = more rides.</p>
+    <p style="font-size:0.75rem;color:var(--muted);margin-bottom:10px;">Each cell = one day. Darker = more rides. Outlined cells predate Orange Line logging, which began in May.</p>
     <div class="heatmap-wrap" id="ol-heatmap"></div>
   </div>
 
   <div class="section">
     <h2>Monthly Volume</h2>
     <div id="ol-monthly-bars"></div>
-    <p class="section-note">Up and to the right, then a partial August. Trend lines do this right before they stop.</p>
+    <p class="section-note">The August dip turned out to be a pause, not a peak. July's 30 still leads; November is half a month old.</p>
   </div>
 
 </div>
@@ -348,59 +358,106 @@
 <div class="panel" id="panel-rl">
 
   <div class="metric-row">
-    <div class="metric rl"><div class="val">10</div><div class="lbl">RL Rides</div></div>
-    <div class="metric rl"><div class="val">10</div><div class="lbl">Unique Cars</div></div>
-    <div class="metric rl"><div class="val">4.6%</div><div class="lbl">Fleet Coverage</div></div>
-    <div class="metric rl"><div class="val">10</div><div class="lbl">One-hit Wonders</div></div>
+    <div class="metric rl"><div class="val">36</div><div class="lbl">RL Rides</div></div>
+    <div class="metric rl"><div class="val">33</div><div class="lbl">Unique Cars</div></div>
+    <div class="metric rl"><div class="val">15.1%</div><div class="lbl">Fleet Coverage</div></div>
+    <div class="metric rl"><div class="val">31</div><div class="lbl">One-hit Wonders</div></div>
   </div>
 
   <div class="insight rl">
-    <strong>🔴 Ten rides. Ten cars. Zero repeats.</strong>
-    <p>A perfect 100% variety rate. Every single Red Line trip has been a car you'd never met. The Red Line has 218 active cars and apparently a policy against reruns.</p>
+    <strong>🔴 Twenty-five rides. Twenty-five cars. Then 1903.</strong>
+    <p>The perfect record lasted 25 rides. Then Car <b>1903</b> turned up for a second time and ended the Red Line's policy against reruns. It has since come back for a third, and <b>1517</b> has repeated too.</p>
+    <p>Variety rate: <b>91.7%</b> — still the best of any fleet with more than four rides. The Red Line has 218 active cars and has merely relaxed its policy, not abandoned it.</p>
   </div>
 
   <div class="insight blue">
-    <strong>🏛️ Four Generations in Ten Rides</strong>
-    <p>You have ridden all four Red Line car types: the <b>#1s</b> (Pullman-Standard, 1969–70), a <b>#2</b> (UTDC, 1987–89), three <b>#3s</b> (Bombardier, 1993–94), and four <b>#4s</b> (CRRC, 2019–27).</p>
-    <p>That's roughly <b>55 years of rolling stock</b> in ten trips. Car 1521 comes from the 1969–70 order — the Apollo era, literally. Car 1955 came off the CRRC delivery schedule at roughly the moment you started this spreadsheet. Same line. Same fare.</p>
+    <strong>🏛️ Four Generations in 36 Rides</strong>
+    <p>You have ridden all four Red Line car types: two <b>#1s</b> (Pullman-Standard, 1969–70), three <b>#2s</b> (UTDC, 1987–89), eleven <b>#3s</b> (Bombardier, 1993–94), and seventeen <b>#4s</b> (CRRC, 2019–27).</p>
+    <p>That's roughly <b>55 years of rolling stock</b> on one line. Car 1521 comes from the 1969–70 order — the Apollo era, literally. Car 1966 is the newest #4 on the latest roster. Same line. Same fare.</p>
   </div>
 
   <div class="insight amber">
     <strong>🏺 Red Line Archaeology</strong>
-    <p><b>1517</b> and <b>1521</b> are #1 cars — the last 18 survivors of a 1969–70 Pullman-Standard order, and only 14 of those remain in the 01500s. They are being scrapped as CRRC #4s arrive. You caught two of them with time to spare.</p>
-    <p><b>1874</b> and <b>1875</b> are a married pair, and you have ridden both halves. <b>1756</b> is the second-to-last number in the entire 01700–01757 #2 series. <b>1903</b> comes from the very first #4 delivery batch.</p>
-    <p>Six of your ten Red Line cars are in series slated for replacement. This log is quietly becoming a historical record.</p>
+    <p><b>1517</b> and <b>1521</b> are #1 cars — the last 18 survivors of a 1969–70 Pullman-Standard order, and only 14 of those remain in the 01500s. They are being scrapped as CRRC #4s arrive. You caught two of them with time to spare, and 1517 twice.</p>
+    <p>Married pairs ridden end to end: <b>1874/1875</b> (#3) and <b>1918/1919</b> (#4). The #2s are <b>1740</b>, <b>1753</b> and <b>1756</b> — the last of those the second-to-last number in the entire 01700–01757 series. <b>1903</b> comes from the very first #4 delivery batch and is now the Red Line's only three-time car: the oldest new train, and the only regular.</p>
+    <p>Sixteen of your 33 Red Line cars are in series slated for replacement. This log is quietly becoming a historical record.</p>
   </div>
 
   <div class="insight teal">
-    <strong>🗓️ Saturday is Red</strong>
-    <p>8 of your 10 Red Line rides fell on a <b>Saturday</b>. One Tuesday, one Friday, no Sundays. The Red Line isn't part of your commute — it's a weekend habit, usually bolted onto a Commuter Rail trip into town. The data knows what you did on your day off.</p>
+    <strong>🗓️ Saturday is (still mostly) Red</strong>
+    <p><b>17</b> of your 36 Red Line rides fell on a Saturday — 47%, down from 8 of 10. The weekdays have muscled in with 15 rides between them, plus 4 on Sundays. Still a weekend line at heart, though the Green Line now outdoes it: four Saturdays out of four.</p>
   </div>
 
   <div class="section">
     <h2>Fleet Coverage Over Time</h2>
     <div id="rl-coverage"></div>
-    <p class="section-note">The dashed line doesn't sit still: 210 active cars in June, 218 today, one hollow circle per delivery. Progress here is counted, not shown as a percentage — by percentage, two new trains would read as a step <em>backwards</em>.</p>
-    <p class="section-note">Scoreboard: <b>ten ridden, eight delivered.</b> A narrow win over CRRC's production line — which is not slowing down.</p>
-    <p class="section-note">Fleet steps interpolated between roster snapshots (208 on May 1, 218 on Sep 2). Step dates are approximate; the endpoints are not.</p>
+    <p class="section-note">The dashed line doesn't sit still: 210 active cars in June, 218 by September, one hollow circle per delivery. Progress here is counted, not shown as a percentage — by percentage, two new trains would read as a step <em>backwards</em>.</p>
+    <p class="section-note">Scoreboard: <b>thirty-three ridden, eight delivered.</b> CRRC's production line has been comprehensively outpaced — at least until the next roster lands.</p>
+    <p class="section-note">Fleet steps interpolated between roster snapshots (208 on May 1, 218 on Sep 2). Step dates are approximate; the endpoints are not. No newer roster has been published since, so the ceiling holds at 218.</p>
   </div>
 
   <div class="section">
     <h2>By Car Generation (trips)</h2>
     <div id="rl-gen-chart"></div>
-    <p class="section-note">Weighted toward the CRRC #4s — 68 of 218 active cars, and rising monthly.</p>
+    <p class="section-note">Weighted toward the CRRC #4s — 68 of 218 active cars, and rising monthly. You've ridden 17 of them, a quarter of the batch.</p>
   </div>
 
   <div class="section">
     <h2>Rides Heatmap — Red Line</h2>
-    <p style="font-size:0.75rem;color:var(--muted);margin-bottom:10px;">Each cell = one logged day. Sparse by design — a weekend fleet.</p>
+    <p style="font-size:0.75rem;color:var(--muted);margin-bottom:10px;">Each cell = one day. Sparse by design — mostly a weekend fleet. Outlined cells predate Red Line logging, which began in June.</p>
     <div class="heatmap-wrap" id="rl-heatmap"></div>
   </div>
 
   <div class="section">
     <h2>Monthly Volume</h2>
     <div id="rl-monthly-bars"></div>
-    <p class="section-note">Three, four, three. The most consistent fleet in the log, and the smallest sample. Related.</p>
+    <p class="section-note">Three, four, three — then seven, thirteen, and six with half of November to go. The most consistent fleet in the log stopped being consistent the moment it got interesting.</p>
+  </div>
+
+</div>
+
+<!-- ===================== GL PANEL ===================== -->
+<div class="panel" id="panel-gl">
+
+  <div class="metric-row">
+    <div class="metric gl"><div class="val">4</div><div class="lbl">GL Rides</div></div>
+    <div class="metric gl"><div class="val">4</div><div class="lbl">Unique Cars</div></div>
+    <div class="metric gl"><div class="val">2.2%</div><div class="lbl">Fleet Coverage</div></div>
+    <div class="metric gl"><div class="val">4</div><div class="lbl">One-hit Wonders</div></div>
+  </div>
+
+  <div class="insight gl">
+    <strong>🟢 The Green Line Arrives</strong>
+    <p>Fifth fleet, first ride: <b>September 19, 2026</b>, Type 7 car <b>3659</b>. Four rides so far, four different cars, and every car type currently in passenger service — Type 7, Type 8 and Type 9. A complete set, collected in a sample you can count on one hand.</p>
+    <p>This tab is barely a dataset. It is, however, a full set.</p>
+  </div>
+
+  <div class="insight blue">
+    <strong>📊 Fleet coverage: 4 of 179 active cars</strong>
+    <p><b>2.2%</b>. Already well ahead of the Bus, which had a seven-week head start and sits at 0.4%. Low bar. Cleared.</p>
+  </div>
+
+  <div class="insight teal">
+    <strong>🗓️ Saturday is Green</strong>
+    <p>All four Green Line rides fell on a <b>Saturday</b>. The Orange Line, meanwhile, has never been ridden on a weekend. The two have never shared a day — which is why a five-fleet day remains, for now, a scheduling impossibility.</p>
+  </div>
+
+  <div class="insight amber">
+    <strong>🏺 Green Line Archaeology</strong>
+    <p><b>3659</b> and <b>3691</b> are Type 7s — Kinki-Sharyo, 1986–88, overhauled 2015–19 — the oldest cars on the line. <b>3804</b> is a Breda Type 8 (1999–2007). <b>3907</b> is a CAF Type 9 (2018–20), which cannot couple to either of the others: the Green Line's newest cars refuse to trainline with its oldest.</p>
+    <p>Three of your four cars are Type 7s and 8s, which the CAF Type 10 "supercars" are due to replace between 2027 and 2031. None of the 102 on order is carrying passengers yet. Ride the old ones while they last.</p>
+  </div>
+
+  <div class="section">
+    <h2>Fleet Coverage Over Time</h2>
+    <div id="gl-coverage"></div>
+    <p class="section-note">Four steps, no flat spots, and a line that only just clears the axis. The finish line will move: every Type 10 delivered raises the ceiling, and every Type 7 retired stays on it.</p>
+  </div>
+
+  <div class="section">
+    <h2>By Car Type (trips)</h2>
+    <div id="gl-type-chart"></div>
+    <p class="section-note">Type 7s are 46% of the active fleet and half your rides. Chance, behaving itself.</p>
   </div>
 
 </div>
@@ -409,40 +466,40 @@
 <div class="panel" id="panel-bus">
 
   <div class="metric-row">
-    <div class="metric bus"><div class="val">2</div><div class="lbl">Bus Rides</div></div>
-    <div class="metric bus"><div class="val">2</div><div class="lbl">Unique Buses</div></div>
-    <div class="metric bus"><div class="val">0.2%</div><div class="lbl">Fleet Coverage</div></div>
-    <div class="metric bus"><div class="val">2</div><div class="lbl">One-hit Wonders</div></div>
+    <div class="metric bus"><div class="val">4</div><div class="lbl">Bus Rides</div></div>
+    <div class="metric bus"><div class="val">4</div><div class="lbl">Unique Buses</div></div>
+    <div class="metric bus"><div class="val">0.4%</div><div class="lbl">Fleet Coverage</div></div>
+    <div class="metric bus"><div class="val">4</div><div class="lbl">One-hit Wonders</div></div>
   </div>
 
   <div class="insight bus">
     <strong>🚌 The Bus Tab</strong>
-    <p>Two rides. Both on a Wednesday. Both New Flyer XDE40 diesel-electric hybrids. Both, so far, unrepeated.</p>
-    <p>This tab exists because the fleet exists. It is not yet a dataset. It is a gesture.</p>
+    <p>Four rides. Three on a Wednesday. All four New Flyer XDE40 diesel-electric hybrids. None, so far, repeated.</p>
+    <p>The sample has doubled since September. It is still not a dataset. It is a slightly larger gesture.</p>
   </div>
 
   <div class="insight blue">
-    <strong>📊 Fleet coverage: 2 of 1,115 active buses</strong>
-    <p><b>0.18%</b>, rounded generously to 0.2%. The bus fleet is bigger than every rail fleet you track put together — 1,115 buses against 812 rail cars — and you have seen two of them.</p>
-    <p>To reach your Orange Line coverage rate you would need to ride 482 more buses. At the current pace of one every 14 days, that's the year <b>2045</b>. Pace yourself, or don't.</p>
+    <strong>📊 Fleet coverage: 4 of 1,115 active buses</strong>
+    <p><b>0.36%</b>, rounded generously to 0.4%. The bus fleet is bigger than every rail fleet you track put together — 1,115 buses against 991 rail cars — and you have seen four of them.</p>
+    <p>To reach your Orange Line coverage rate you would need to ride 627 more buses. At the current pace of roughly one every four weeks, that lands around the year <b>2074</b>. Pace yourself, or don't.</p>
   </div>
 
   <div class="section">
     <h2>Fleet Coverage Over Time</h2>
     <div id="bus-coverage"></div>
-    <p class="section-note">The line is there — two cars tall against a ceiling of 1,115, roughly the thickness of the axis itself. Both ticks below are solid: a flawless 100% new-bus rate. Perfect record, negligible sample.</p>
+    <p class="section-note">The line is there — four buses tall against a ceiling of 1,115, still roughly the thickness of the axis itself. All four ticks below are solid: a flawless new-bus rate. Perfect record, negligible sample.</p>
   </div>
 
   <div class="section">
     <h2>By Bus Type (trips)</h2>
     <div id="bus-type-chart"></div>
-    <p class="section-note">XDE40s are <b>57%</b> of the fleet. Two-for-two is chance, not preference.</p>
+    <p class="section-note">XDE40s are <b>57%</b> of the fleet. Four-for-four happens by chance about one time in ten. Suspicious, but not yet actionable.</p>
   </div>
 
   <div class="insight teal">
     <strong>🎯 The Aspirational Section</strong>
-    <p>Untouched modes remaining: <b>Green Line</b> (179 active cars, plus the first Type 10 pilot due this month), <b>Blue Line</b> (94 cars), <b>Silver Line</b>, and the six Mattapan PCC trolleys built in 1945.</p>
-    <p>Those PCCs are 81 years old and run on a 2.6-mile line. They are the single highest-value target in the entire system. Go get them.</p>
+    <p>Untouched modes remaining: <b>Blue Line</b> (94 cars), <b>Silver Line</b>, the six Mattapan PCC trolleys built in 1945–46, and the Green Line's Type 10s, once any of them carry passengers. The Green Line itself has been crossed off.</p>
+    <p>Those PCCs are roughly 80 years old and run on a 2.6-mile line. They remain the single highest-value target in the entire system. Go get them.</p>
   </div>
 
 </div>
@@ -451,32 +508,33 @@
 <div class="panel" id="panel-streaks">
 
   <div class="insight red">
-    <strong>🕳️ The Long Silence: Car 882 is missing</strong>
-    <p>Last confirmed sighting: <b>June 3, 2026</b>. Days elapsed as of this report: <b>92</b>. Rides logged since, across all fleets: <b>124</b>, of which 45 were Commuter Rail. Sightings of Car 882 in any of them: <b>zero</b>.</p>
-    <p>This breaks its own record. The Great Drought was 65 days and ended. This one is 27 days longer and <em>ongoing</em>. Car 882 remains the all-time ride leader with 19 while having contributed nothing to the last three months of this project. A legacy act.</p>
+    <strong>🕳️ The Long Silence — ended. The Sequel — ongoing.</strong>
+    <p>June 3 → September 15, 2026. <b>104 calendar days</b>. <b>145</b> rides logged across all fleets, 55 of them Commuter Rail, without a single sighting of Car 882. The all-time record, by a distance.</p>
+    <p>It ended the way these things always end: Car 882 simply turned up, as if it had never left. One ride. Then it left again. <b>The Sequel</b> stands at <b>63 days</b> and <b>99 rides</b> and counting. If 882 is still missing on November 20, the Sequel overtakes the Great Drought for second place all-time. Investigation reopened.</p>
   </div>
 
   <div class="insight amber">
-    <strong>☄️ The Great Drought (2026) — now the silver medal</strong>
-    <p>March 30 → June 3, 2026. <b>65 calendar days.</b> For one glorious quarter this was the most dramatic thing in the dataset. Car 882 came back on June 3, took you one stop closer to work, and has not been seen since. In hindsight, the drought was a warning and the return was a goodbye.</p>
+    <strong>☄️ The Great Drought (2026) — silver medal, for now</strong>
+    <p>March 30 → June 3, 2026. <b>65 calendar days.</b> Once the most dramatic thing in the dataset, then outdone by the Long Silence, and now days away from being outdone by the Sequel. Car 882 does not do one-offs.</p>
   </div>
 
   <div class="insight blue">
     <strong>🪞 The Doppelgänger: July 7, 2026</strong>
     <p>Orange Line car <b>1521</b>. Red Line car <b>1521</b>. Same day. Same person. Two entirely different trains built roughly <b>half a century apart</b>, on two different lines, sharing a number because the MBTA's numbering plan treats uniqueness as a stylistic choice.</p>
-    <p>It happened again in slower motion with car <b>1517</b>: Red Line on August 1, Orange Line on August 12. Two number collisions, both logged, both real. The roster writes the Red Line ones with a leading zero (01517, 01521) specifically to prevent this, and it did not help.</p>
+    <p>It happened again in slower motion with car <b>1517</b>, which has since doubled down: both versions have now been ridden twice. The roster writes the Red Line ones with a leading zero (01517, 01521) specifically to prevent this, and it did not help.</p>
+    <p>Closest call since: bus <b>1961</b> and Red Line car <b>1960</b> — whose married partner is, naturally, 1961. One car away from the first bus-and-train collision. Bus <b>1982</b> has no Red Line twin yet; the #4 deliveries had only reached 1967 on the latest roster. Give CRRC time.</p>
   </div>
 
   <div class="insight teal">
-    <strong>👑 The Triple Crown: three fleets in one day, three times</strong>
-    <p><b>July 7</b> — CR + OL + RL (and the Doppelgänger, on the same day, which is frankly showing off). <b>August 12</b> — CR + OL + BUS. <b>August 14</b> — CR + OL + RL.</p>
-    <p>Three fleets in a single day has happened on 3 of your 153 logged days. Four fleets in one day has never happened. The BUS tab is the bottleneck.</p>
+    <strong>👑 The Triple Crown — and now the Grand Slam</strong>
+    <p>Three fleets in one day was first achieved on <b>July 7</b> (CR + OL + RL, with the Doppelgänger thrown in, which was frankly showing off). It has since become routine: <b>ten</b> three-fleet days in all, seven of them the classic Commuter Rail + Orange + Red. The Green Line has joined in twice.</p>
+    <p><b>The Grand Slam: four fleets in one day.</b> Long considered out of reach because of the Bus. Then <b>October 14</b>: Commuter Rail, Orange Line, Red Line and a bus, all in a single day. It happened again less than three weeks later. Five fleets remains undone — the Green Line only gets ridden on Saturdays, and the Orange Line never does.</p>
   </div>
 
   <div class="insight amber">
     <strong>🎄 The Dec 19 Double: #882, twice in one day</strong>
-    <p>Morning train: Car 882. Evening train: also Car 882. The probability of matching on any given two-trip day is roughly 0.23% (1-in-442). Across your <b>65</b> two-trip CR days: a ~14% chance this ever happens at all. It happened on December 19th. Cherish this.</p>
-    <p>Nine months and 274 rides later, it has not happened again. Not once, in any fleet, in any mode.</p>
+    <p>Morning train: Car 882. Evening train: also Car 882. The probability of matching on any given two-trip day is roughly 0.23% (1-in-442). Across your <b>69</b> two-trip CR days: a ~14% chance this ever happens at all. It happened on December 19th. Cherish this.</p>
+    <p>Eleven months and 398 rides later, it has not happened again. Not once, in any fleet, in any mode.</p>
   </div>
 
   <div class="section">
@@ -491,21 +549,21 @@
   </div>
 
   <div class="insight purple">
-    <strong>🏅 Streak leaderboard — and a drought of its own</strong>
+    <strong>🏅 Streak leaderboard — the drought that wasn't</strong>
     <p>Car 882 holds the record: 5 consecutive logged days (Dec 15–22). Car 830 is second at 4 (May 7–11). Cars 808, 734 and 778 each appear twice on the board. The 800s are competitive; the 730s are persistent.</p>
-    <p>The uncomfortable part: <b>no new streak has been recorded since May 11, 2026.</b> 115 days, 146 rides, not one repeat on consecutive days. As fleet coverage goes up, streaks go down — you have simply gotten too good at meeting new trains.</p>
+    <p>The September edition declared a streak drought: nothing since May. Car 886 was, at that moment, completing one — Sep 2–3. Car 711 added another a week and a half later. Since then: <b>64 days and 103 rides</b> without a new streak. Rising coverage still makes them rare. Not, apparently, extinct.</p>
   </div>
 
   <div class="section">
     <h2>Rides by Day of Week</h2>
     <div id="dow-chart"></div>
-    <p class="section-note">Wednesday is the workhorse (61 rides); Sunday has four, ever. Saturday is Red Line and Commuter Rail — the trip into town. The Orange Line and Bus have never seen a weekend.</p>
+    <p class="section-note">Monday has edged past Wednesday for the top spot (81 to 79); Sunday has ten rides, ever. Saturday belongs to the Red Line, the Commuter Rail and now the Green Line. The Orange Line has never seen a weekend. The Green Line has never seen a weekday.</p>
   </div>
 
   <div class="insight blue">
     <strong>📈 The State of the Log</strong>
-    <p>297 rides. 165 unique cars. 4 fleets. 284 days. Across every active fleet you track — 1,927 vehicles — you have personally ridden <b>8.6%</b> of the MBTA.</p>
-    <p>Nine months ago this was one spreadsheet column and one train. Car 882 is still the spirit car. It just isn't around much anymore.</p>
+    <p>421 rides. 225 unique cars. 5 fleets. 359 days. Across every active fleet you track — 2,106 vehicles — you have personally ridden <b>10.7%</b> of the MBTA. One vehicle in ten.</p>
+    <p>Next week this project turns one. A year ago it was one spreadsheet column and one train. Car 882 is still the spirit car. It still isn't around much.</p>
   </div>
 
 </div>
@@ -514,7 +572,7 @@
   <div class="footer-inner">
     <div class="flabel">Sources &amp; Further Reading</div>
     <ul>
-      <li><a href="https://en.wikipedia.org/wiki/MBTA_Commuter_Rail#Rolling_stock" target="_blank" rel="noopener">MBTA Commuter Rail — Rolling stock</a> <span class="fnote">· Wikipedia. Coach classes, builders, and locomotive fleet.</span></li>
+      <li><a href="https://en.wikipedia.org/wiki/MBTA_Commuter_Rail#Rolling_stock" target="_blank" rel="noopener">MBTA Commuter Rail &gt; Rolling stock</a> <span class="fnote">· Wikipedia. Coach classes, builders, and locomotive fleet.</span></li>
       <li><a href="http://roster.transithistory.org/" target="_blank" rel="noopener">roster.transithistory.org</a> <span class="fnote">· NETransit's MBTA equipment roster. Car numbers, build dates, and active fleet counts.</span></li>
     </ul>
   </div>
@@ -522,21 +580,28 @@
 
 <script>
 // ===================== DATA =====================
-const crTopCars = [["882",19],["734",11],["808",11],["778",10],["755",9],["830",9],["776",6],["805",6],["723",4],["866",4],["883",4],["715",3],["749",3],["761",3],["774",3]];
-const crMonthly = {"2025-11":3,"2025-12":24,"2026-01":33,"2026-02":16,"2026-03":28,"2026-04":35,"2026-05":17,"2026-06":22,"2026-07":15,"2026-08":10};
-const olRepeatCars = [["1505",4],["1547",3],["1407",2],["1425",2],["1429",2],["1447",2],["1457",2],["1487",2],["1492",2],["1500",2],["1521",2],["1527",2],["1545",2]];
-const olOnceCars = ["1402","1405","1410","1411","1415","1417","1420","1428","1431","1433","1437","1439","1441","1445","1448","1449","1450","1455","1456","1459","1462","1463","1467","1469","1472","1473","1475","1481","1485","1491","1498","1499","1501","1502","1503","1509","1513","1514","1515","1517","1519","1520","1523","1524","1526","1536","1537","1538","1540","1544","1546","1549","1551"];
-const olMonthly = {"2026-05":12,"2026-06":24,"2026-07":30,"2026-08":16};
-const rlMonthly = {"2026-06":3,"2026-07":4,"2026-08":3};
-const crHeatmap = {"2025-11-24":1,"2025-11-25":2,"2025-12-01":2,"2025-12-02":2,"2025-12-03":2,"2025-12-06":2,"2025-12-08":2,"2025-12-09":2,"2025-12-10":1,"2025-12-14":1,"2025-12-15":2,"2025-12-16":1,"2025-12-17":1,"2025-12-19":2,"2025-12-22":2,"2025-12-30":1,"2025-12-31":1,"2026-01-01":1,"2026-01-02":2,"2026-01-05":2,"2026-01-06":2,"2026-01-07":2,"2026-01-08":2,"2026-01-09":2,"2026-01-12":2,"2026-01-13":2,"2026-01-14":2,"2026-01-15":2,"2026-01-16":2,"2026-01-20":2,"2026-01-21":1,"2026-01-22":2,"2026-01-25":2,"2026-01-27":1,"2026-01-28":2,"2026-02-05":2,"2026-02-06":1,"2026-02-09":2,"2026-02-10":1,"2026-02-11":2,"2026-02-12":1,"2026-02-13":2,"2026-02-18":1,"2026-02-19":2,"2026-02-20":2,"2026-03-02":2,"2026-03-03":1,"2026-03-04":2,"2026-03-05":1,"2026-03-06":2,"2026-03-09":2,"2026-03-10":1,"2026-03-11":2,"2026-03-13":1,"2026-03-16":1,"2026-03-18":1,"2026-03-19":1,"2026-03-20":2,"2026-03-23":2,"2026-03-24":1,"2026-03-27":2,"2026-03-30":2,"2026-03-31":2,"2026-04-01":2,"2026-04-02":2,"2026-04-03":2,"2026-04-06":2,"2026-04-07":2,"2026-04-08":2,"2026-04-09":2,"2026-04-10":1,"2026-04-13":2,"2026-04-14":2,"2026-04-16":1,"2026-04-17":2,"2026-04-18":1,"2026-04-21":2,"2026-04-22":1,"2026-04-23":1,"2026-04-24":1,"2026-04-26":1,"2026-04-27":1,"2026-04-28":1,"2026-04-29":2,"2026-04-30":2,"2026-05-04":1,"2026-05-05":2,"2026-05-06":2,"2026-05-07":1,"2026-05-08":1,"2026-05-09":1,"2026-05-11":2,"2026-05-12":1,"2026-05-14":1,"2026-05-20":1,"2026-05-21":2,"2026-05-26":2,"2026-06-02":1,"2026-06-03":1,"2026-06-05":1,"2026-06-06":1,"2026-06-08":1,"2026-06-10":2,"2026-06-11":1,"2026-06-12":1,"2026-06-13":1,"2026-06-15":1,"2026-06-16":2,"2026-06-17":2,"2026-06-20":1,"2026-06-23":1,"2026-06-24":2,"2026-06-25":1,"2026-06-26":1,"2026-06-27":1,"2026-07-07":2,"2026-07-08":1,"2026-07-10":1,"2026-07-11":1,"2026-07-13":1,"2026-07-14":1,"2026-07-18":1,"2026-07-20":1,"2026-07-23":1,"2026-07-24":2,"2026-07-27":1,"2026-07-28":1,"2026-07-30":1,"2026-08-03":1,"2026-08-04":1,"2026-08-06":1,"2026-08-12":1,"2026-08-13":1,"2026-08-14":1,"2026-08-15":1,"2026-08-18":1,"2026-08-21":1,"2026-08-28":1};
-const olHeatmap = {"2026-05-11":2,"2026-05-12":1,"2026-05-14":2,"2026-05-19":2,"2026-05-20":2,"2026-05-21":2,"2026-05-26":1,"2026-06-02":1,"2026-06-03":2,"2026-06-04":1,"2026-06-05":2,"2026-06-08":1,"2026-06-10":2,"2026-06-11":1,"2026-06-12":1,"2026-06-15":1,"2026-06-16":2,"2026-06-22":1,"2026-06-23":1,"2026-06-24":2,"2026-06-25":2,"2026-06-26":2,"2026-06-29":2,"2026-07-07":1,"2026-07-08":2,"2026-07-09":2,"2026-07-10":2,"2026-07-13":2,"2026-07-14":1,"2026-07-15":2,"2026-07-16":2,"2026-07-17":3,"2026-07-22":3,"2026-07-23":2,"2026-07-24":1,"2026-07-27":2,"2026-07-28":1,"2026-07-29":2,"2026-07-30":2,"2026-08-03":2,"2026-08-04":1,"2026-08-06":1,"2026-08-10":2,"2026-08-11":2,"2026-08-12":2,"2026-08-13":2,"2026-08-14":1,"2026-08-17":1,"2026-08-18":1,"2026-08-19":1};
-const rlHeatmap = {"2026-06-06":1,"2026-06-13":1,"2026-06-27":1,"2026-07-07":1,"2026-07-11":1,"2026-07-18":2,"2026-08-01":2,"2026-08-14":1};
-const crStreaks = [["2025-12-15","2025-12-22",5,"882"],["2026-05-07","2026-05-11",4,"830"],["2026-01-01","2026-01-05",3,"808"],["2026-01-08","2026-01-12",3,"882"],["2025-12-06","2025-12-08",2,"808"],["2026-01-09","2026-01-12",2,"734"],["2026-01-15","2026-01-16",2,"734"],["2026-02-20","2026-03-02",2,"776"],["2026-03-06","2026-03-09",2,"778"],["2026-03-20","2026-03-23",2,"778"],["2026-04-03","2026-04-06",2,"755"]];
-const builderTrips = {"Rotem":98,"Kawasaki":86,"Bombardier":18,"MBB":1};
-const rlGen =[["#4 CRRC (2019–27)",4],["#3 Bombardier (1993–94)",3],["#1 Pullman-Standard (1969–70)",2],["#2 UTDC (1987–89)",1]];
+const crTopCars = [["882",20],["808",12],["734",11],["778",10],["755",9],["830",9],["776",6],["805",6],["859",6],["886",6],["883",5],["723",4],["761",4],["866",4],["881",4]];
+const crMonthly = {"2025-11":3,"2025-12":24,"2026-01":33,"2026-02":16,"2026-03":28,"2026-04":35,"2026-05":17,"2026-06":22,"2026-07":15,"2026-08":10,"2026-09":15,"2026-10":13,"2026-11":9};
+const olRepeatCars = [["1505",6],["1547",4],["1405",3],["1417",3],["1429",3],["1447",3],["1486",3],["1492",3],["1501",3],["1519",3],["1527",3],["1529",3],["1407",2],["1421",2],["1425",2],["1428",2],["1431",2],["1437",2],["1441",2],["1445",2],["1450",2],["1456",2],["1457",2],["1467",2],["1487",2],["1499",2],["1500",2],["1509",2],["1513",2],["1517",2],["1521",2],["1537",2],["1544",2],["1545",2],["1551",2]];
+const olOnceCars = ["1402","1410","1411","1415","1420","1422","1433","1434","1435","1439","1440","1444","1448","1449","1455","1459","1461","1462","1463","1465","1469","1472","1473","1475","1477","1478","1479","1481","1483","1485","1489","1491","1498","1502","1503","1514","1515","1520","1523","1524","1525","1526","1530","1531","1536","1538","1540","1546","1548","1549","1550"];
+const olMonthly = {"2026-05":12,"2026-06":24,"2026-07":30,"2026-08":16,"2026-09":16,"2026-10":26,"2026-11":13};
+const rlMonthly = {"2026-06":3,"2026-07":4,"2026-08":3,"2026-09":7,"2026-10":13,"2026-11":6};
+const crHeatmap = {"2025-11-24":1,"2025-11-25":2,"2025-12-01":2,"2025-12-02":2,"2025-12-03":2,"2025-12-06":2,"2025-12-08":2,"2025-12-09":2,"2025-12-10":1,"2025-12-14":1,"2025-12-15":2,"2025-12-16":1,"2025-12-17":1,"2025-12-19":2,"2025-12-22":2,"2025-12-30":1,"2025-12-31":1,"2026-01-01":1,"2026-01-02":2,"2026-01-05":2,"2026-01-06":2,"2026-01-07":2,"2026-01-08":2,"2026-01-09":2,"2026-01-12":2,"2026-01-13":2,"2026-01-14":2,"2026-01-15":2,"2026-01-16":2,"2026-01-20":2,"2026-01-21":1,"2026-01-22":2,"2026-01-25":2,"2026-01-27":1,"2026-01-28":2,"2026-02-05":2,"2026-02-06":1,"2026-02-09":2,"2026-02-10":1,"2026-02-11":2,"2026-02-12":1,"2026-02-13":2,"2026-02-18":1,"2026-02-19":2,"2026-02-20":2,"2026-03-02":2,"2026-03-03":1,"2026-03-04":2,"2026-03-05":1,"2026-03-06":2,"2026-03-09":2,"2026-03-10":1,"2026-03-11":2,"2026-03-13":1,"2026-03-16":1,"2026-03-18":1,"2026-03-19":1,"2026-03-20":2,"2026-03-23":2,"2026-03-24":1,"2026-03-27":2,"2026-03-30":2,"2026-03-31":2,"2026-04-01":2,"2026-04-02":2,"2026-04-03":2,"2026-04-06":2,"2026-04-07":2,"2026-04-08":2,"2026-04-09":2,"2026-04-10":1,"2026-04-13":2,"2026-04-14":2,"2026-04-16":1,"2026-04-17":2,"2026-04-18":1,"2026-04-21":2,"2026-04-22":1,"2026-04-23":1,"2026-04-24":1,"2026-04-26":1,"2026-04-27":1,"2026-04-28":1,"2026-04-29":2,"2026-04-30":2,"2026-05-04":1,"2026-05-05":2,"2026-05-06":2,"2026-05-07":1,"2026-05-08":1,"2026-05-09":1,"2026-05-11":2,"2026-05-12":1,"2026-05-14":1,"2026-05-20":1,"2026-05-21":2,"2026-05-26":2,"2026-06-02":1,"2026-06-03":1,"2026-06-05":1,"2026-06-06":1,"2026-06-08":1,"2026-06-10":2,"2026-06-11":1,"2026-06-12":1,"2026-06-13":1,"2026-06-15":1,"2026-06-16":2,"2026-06-17":2,"2026-06-20":1,"2026-06-23":1,"2026-06-24":2,"2026-06-25":1,"2026-06-26":1,"2026-06-27":1,"2026-07-07":2,"2026-07-08":1,"2026-07-10":1,"2026-07-11":1,"2026-07-13":1,"2026-07-14":1,"2026-07-18":1,"2026-07-20":1,"2026-07-23":1,"2026-07-24":2,"2026-07-27":1,"2026-07-28":1,"2026-07-30":1,"2026-08-03":1,"2026-08-04":1,"2026-08-06":1,"2026-08-12":1,"2026-08-13":1,"2026-08-14":1,"2026-08-15":1,"2026-08-18":1,"2026-08-21":1,"2026-08-28":1,"2026-09-02":2,"2026-09-03":1,"2026-09-04":1,"2026-09-08":1,"2026-09-10":2,"2026-09-12":2,"2026-09-14":1,"2026-09-15":1,"2026-09-18":1,"2026-09-19":1,"2026-09-23":1,"2026-09-24":1,"2026-10-03":1,"2026-10-05":1,"2026-10-06":2,"2026-10-07":1,"2026-10-12":1,"2026-10-13":1,"2026-10-14":1,"2026-10-17":1,"2026-10-18":1,"2026-10-19":1,"2026-10-22":1,"2026-10-29":1,"2026-11-01":1,"2026-11-02":1,"2026-11-06":1,"2026-11-07":1,"2026-11-09":1,"2026-11-10":1,"2026-11-11":1,"2026-11-12":1,"2026-11-16":1};
+const olHeatmap = {"2026-05-11":2,"2026-05-12":1,"2026-05-14":2,"2026-05-19":2,"2026-05-20":2,"2026-05-21":2,"2026-05-26":1,"2026-06-02":1,"2026-06-03":2,"2026-06-04":1,"2026-06-05":2,"2026-06-08":1,"2026-06-10":2,"2026-06-11":1,"2026-06-12":1,"2026-06-15":1,"2026-06-16":2,"2026-06-22":1,"2026-06-23":1,"2026-06-24":2,"2026-06-25":2,"2026-06-26":2,"2026-06-29":2,"2026-07-07":1,"2026-07-08":2,"2026-07-09":2,"2026-07-10":2,"2026-07-13":2,"2026-07-14":1,"2026-07-15":2,"2026-07-16":2,"2026-07-17":3,"2026-07-22":3,"2026-07-23":2,"2026-07-24":1,"2026-07-27":2,"2026-07-28":1,"2026-07-29":2,"2026-07-30":2,"2026-08-03":2,"2026-08-04":1,"2026-08-06":1,"2026-08-10":2,"2026-08-11":2,"2026-08-12":2,"2026-08-13":2,"2026-08-14":1,"2026-08-17":1,"2026-08-18":1,"2026-08-19":1,"2026-09-02":2,"2026-09-03":1,"2026-09-04":1,"2026-09-08":1,"2026-09-10":2,"2026-09-14":2,"2026-09-15":2,"2026-09-18":1,"2026-09-23":2,"2026-09-24":2,"2026-10-05":4,"2026-10-06":2,"2026-10-07":2,"2026-10-13":1,"2026-10-14":1,"2026-10-15":2,"2026-10-16":2,"2026-10-19":2,"2026-10-22":2,"2026-10-23":2,"2026-10-26":3,"2026-10-29":2,"2026-10-30":1,"2026-11-02":1,"2026-11-03":1,"2026-11-04":1,"2026-11-05":1,"2026-11-06":2,"2026-11-09":2,"2026-11-10":2,"2026-11-12":1,"2026-11-16":2};
+const rlHeatmap = {"2026-06-06":1,"2026-06-13":1,"2026-06-27":1,"2026-07-07":1,"2026-07-11":1,"2026-07-18":2,"2026-08-01":2,"2026-08-14":1,"2026-09-04":1,"2026-09-10":1,"2026-09-15":1,"2026-09-18":2,"2026-09-19":2,"2026-10-03":1,"2026-10-07":1,"2026-10-12":1,"2026-10-14":1,"2026-10-17":1,"2026-10-18":2,"2026-10-20":2,"2026-10-25":1,"2026-10-26":1,"2026-10-31":2,"2026-11-01":1,"2026-11-02":1,"2026-11-07":3,"2026-11-11":1};
+const crStreaks = [["2025-12-15","2025-12-22",5,"882"],["2026-05-07","2026-05-11",4,"830"],["2026-01-01","2026-01-05",3,"808"],["2026-01-08","2026-01-12",3,"882"],["2025-12-06","2025-12-08",2,"808"],["2026-01-09","2026-01-12",2,"734"],["2026-01-15","2026-01-16",2,"734"],["2026-02-20","2026-03-02",2,"776"],["2026-03-06","2026-03-09",2,"778"],["2026-03-20","2026-03-23",2,"778"],["2026-04-03","2026-04-06",2,"755"],["2026-09-02","2026-09-03",2,"886"],["2026-09-12","2026-09-14",2,"711"]];
+const builderTrips = {"Rotem":118,"Kawasaki":96,"Bombardier":25,"MBB":1};
+const rlGen =[["#4 CRRC (2019–27)",19],["#3 Bombardier (1993–94)",11],["#1 Pullman-Standard (1969–70)",3],["#2 UTDC (1987–89)",3]];
+// [type label, builder · years, trips, active cars in fleet] — fleet counts from the 09/02/26 roster; 83 + 72 + 24 = 179.
+const glTypes = [
+  ["Type 7",  "Kinki-Sharyo · 1986–97",  2, 83],
+  ["Type 8",  "Breda · 1999–2007",       1, 72],
+  ["Type 9",  "CAF · 2018–20",           1, 24],
+  ["Type 10", "CAF · on order",          0,  0]
+];
 // [type label, propulsion, trips, active buses in fleet] — fleet counts from the 08/2026 roster; the seven blocks sum to 1,115.
 const busTypes = [
-  ["XDE40",   "40′ diesel-electric hybrid", 2, 630],
+  ["XDE40",   "40′ diesel-electric hybrid", 4, 630],
   ["XN40",    "40′ CNG",                    0, 175],
   ["D40LF",   "40′ diesel (2008)",          0, 153],
   ["XDE60",   "60′ artic. hybrid",          0,  90],
@@ -544,28 +609,31 @@ const busTypes = [
   ["DE60LFR", "60′ artic. hybrid (2010)",   0,  25],
   ["XE60",    "60′ artic. battery (SL)",    0,   5]
 ];
-const dowByFleet = {"CR":[38,43,39,32,36,11,4],"OL":[16,15,20,19,12,0,0],"RL":[0,1,0,0,1,8,0],"BUS":[0,0,2,0,0,0,0]};
-const ridesPerDay ={"1 ride":44,"2 rides":81,"3 rides":21,"4 rides":7};
+const dowByFleet = {"CR":[45,49,45,39,39,17,6],"OL":[32,24,28,32,21,0,0],"RL":[3,4,3,1,4,17,4],"GL":[0,0,0,0,0,4,0],"BUS":[1,0,3,0,0,0,0]};
 
 // ---- Coverage curves: [date, rides that day, NEW cars that day, cumulative unique] ----
 const covCurves = {
-"cr":[["2025-11-24",1,1,1],["2025-11-25",2,2,3],["2025-12-01",2,2,5],["2025-12-02",2,0,5],["2025-12-03",2,2,7],["2025-12-06",2,0,7],["2025-12-08",2,1,8],["2025-12-09",2,2,10],["2025-12-10",1,1,11],["2025-12-14",1,1,12],["2025-12-15",2,1,13],["2025-12-16",1,0,13],["2025-12-17",1,0,13],["2025-12-19",2,0,13],["2025-12-22",2,0,13],["2025-12-30",1,1,14],["2025-12-31",1,1,15],["2026-01-01",1,0,15],["2026-01-02",2,1,16],["2026-01-05",2,1,17],["2026-01-06",2,1,18],["2026-01-07",2,2,20],["2026-01-08",2,0,20],["2026-01-09",2,0,20],["2026-01-12",2,0,20],["2026-01-13",2,1,21],["2026-01-14",2,1,22],["2026-01-15",2,0,22],["2026-01-16",2,1,23],["2026-01-20",2,1,24],["2026-01-21",1,1,25],["2026-01-22",2,1,26],["2026-01-25",2,2,28],["2026-01-27",1,0,28],["2026-01-28",2,1,29],["2026-02-05",2,2,31],["2026-02-06",1,1,32],["2026-02-09",2,1,33],["2026-02-10",1,0,33],["2026-02-11",2,1,34],["2026-02-12",1,1,35],["2026-02-13",2,0,35],["2026-02-18",1,1,36],["2026-02-19",2,1,37],["2026-02-20",2,1,38],["2026-03-02",2,1,39],["2026-03-03",1,1,40],["2026-03-04",2,2,42],["2026-03-05",1,1,43],["2026-03-06",2,0,43],["2026-03-09",2,0,43],["2026-03-10",1,1,44],["2026-03-11",2,1,45],["2026-03-13",1,0,45],["2026-03-16",1,1,46],["2026-03-18",1,1,47],["2026-03-19",1,1,48],["2026-03-20",2,0,48],["2026-03-23",2,1,49],["2026-03-24",1,1,50],["2026-03-27",2,1,51],["2026-03-30",2,1,52],["2026-03-31",2,2,54],["2026-04-01",2,1,55],["2026-04-02",2,1,56],["2026-04-03",2,1,57],["2026-04-06",2,1,58],["2026-04-07",2,1,59],["2026-04-08",2,1,60],["2026-04-09",2,1,61],["2026-04-10",1,0,61],["2026-04-13",2,2,63],["2026-04-14",2,1,64],["2026-04-16",1,1,65],["2026-04-17",2,1,66],["2026-04-18",1,0,66],["2026-04-21",2,1,67],["2026-04-22",1,0,67],["2026-04-23",1,1,68],["2026-04-24",1,0,68],["2026-04-26",1,1,69],["2026-04-27",1,0,69],["2026-04-28",1,0,69],["2026-04-29",2,1,70],["2026-04-30",2,1,71],["2026-05-04",1,0,71],["2026-05-05",2,1,72],["2026-05-06",2,0,72],["2026-05-07",1,0,72],["2026-05-08",1,0,72],["2026-05-09",1,0,72],["2026-05-11",2,1,73],["2026-05-12",1,0,73],["2026-05-14",1,1,74],["2026-05-20",1,0,74],["2026-05-21",2,1,75],["2026-05-26",2,1,76],["2026-06-02",1,1,77],["2026-06-03",1,0,77],["2026-06-05",1,0,77],["2026-06-06",1,1,78],["2026-06-08",1,0,78],["2026-06-10",2,1,79],["2026-06-11",1,0,79],["2026-06-12",1,0,79],["2026-06-13",1,0,79],["2026-06-15",1,1,80],["2026-06-16",2,0,80],["2026-06-17",2,1,81],["2026-06-20",1,0,81],["2026-06-23",1,1,82],["2026-06-24",2,0,82],["2026-06-25",1,0,82],["2026-06-26",1,0,82],["2026-06-27",1,0,82],["2026-07-07",2,0,82],["2026-07-08",1,0,82],["2026-07-10",1,0,82],["2026-07-11",1,0,82],["2026-07-13",1,0,82],["2026-07-14",1,1,83],["2026-07-18",1,0,83],["2026-07-20",1,0,83],["2026-07-23",1,0,83],["2026-07-24",2,1,84],["2026-07-27",1,0,84],["2026-07-28",1,0,84],["2026-07-30",1,0,84],["2026-08-03",1,0,84],["2026-08-04",1,0,84],["2026-08-06",1,0,84],["2026-08-12",1,0,84],["2026-08-13",1,0,84],["2026-08-14",1,1,85],["2026-08-15",1,0,85],["2026-08-18",1,1,86],["2026-08-21",1,1,87],["2026-08-28",1,0,87]],
-"ol":[["2026-05-11",2,2,2],["2026-05-12",1,1,3],["2026-05-14",2,2,5],["2026-05-19",2,2,7],["2026-05-20",2,2,9],["2026-05-21",2,1,10],["2026-05-26",1,1,11],["2026-06-02",1,1,12],["2026-06-03",2,2,14],["2026-06-04",1,1,15],["2026-06-05",2,2,17],["2026-06-08",1,1,18],["2026-06-10",2,2,20],["2026-06-11",1,1,21],["2026-06-12",1,1,22],["2026-06-15",1,1,23],["2026-06-16",2,2,25],["2026-06-22",1,0,25],["2026-06-23",1,1,26],["2026-06-24",2,2,28],["2026-06-25",2,2,30],["2026-06-26",2,2,32],["2026-06-29",2,2,34],["2026-07-07",1,1,35],["2026-07-08",2,2,37],["2026-07-09",2,2,39],["2026-07-10",2,1,40],["2026-07-13",2,2,42],["2026-07-14",1,1,43],["2026-07-15",2,1,44],["2026-07-16",2,2,46],["2026-07-17",3,3,49],["2026-07-22",3,3,52],["2026-07-23",2,2,54],["2026-07-24",1,1,55],["2026-07-27",2,1,56],["2026-07-28",1,1,57],["2026-07-29",2,1,58],["2026-07-30",2,2,60],["2026-08-03",2,1,61],["2026-08-04",1,0,61],["2026-08-06",1,1,62],["2026-08-10",2,1,63],["2026-08-11",2,1,64],["2026-08-12",2,0,64],["2026-08-13",2,1,65],["2026-08-14",1,0,65],["2026-08-17",1,0,65],["2026-08-18",1,1,66],["2026-08-19",1,0,66]],
-"rl":[["2026-06-06",1,1,1],["2026-06-13",1,1,2],["2026-06-27",1,1,3],["2026-07-07",1,1,4],["2026-07-11",1,1,5],["2026-07-18",2,2,7],["2026-08-01",2,2,9],["2026-08-14",1,1,10]],
-"bus":[["2026-07-29",1,1,1],["2026-08-12",1,1,2]]
+"cr":[["2025-11-24",1,1,1],["2025-11-25",2,2,3],["2025-12-01",2,2,5],["2025-12-02",2,0,5],["2025-12-03",2,2,7],["2025-12-06",2,0,7],["2025-12-08",2,1,8],["2025-12-09",2,2,10],["2025-12-10",1,1,11],["2025-12-14",1,1,12],["2025-12-15",2,1,13],["2025-12-16",1,0,13],["2025-12-17",1,0,13],["2025-12-19",2,0,13],["2025-12-22",2,0,13],["2025-12-30",1,1,14],["2025-12-31",1,1,15],["2026-01-01",1,0,15],["2026-01-02",2,1,16],["2026-01-05",2,0,16],["2026-01-06",2,1,17],["2026-01-07",2,1,18],["2026-01-08",2,1,19],["2026-01-09",2,0,19],["2026-01-12",2,0,19],["2026-01-13",2,2,21],["2026-01-14",2,0,21],["2026-01-15",2,1,22],["2026-01-16",2,0,22],["2026-01-20",2,1,23],["2026-01-21",1,1,24],["2026-01-22",2,0,24],["2026-01-25",2,2,26],["2026-01-27",1,1,27],["2026-01-28",2,2,29],["2026-02-05",2,0,29],["2026-02-06",1,0,29],["2026-02-09",2,1,30],["2026-02-10",1,0,30],["2026-02-11",2,1,31],["2026-02-12",1,0,31],["2026-02-13",2,0,31],["2026-02-18",1,0,31],["2026-02-19",2,1,32],["2026-02-20",2,1,33],["2026-03-02",2,0,33],["2026-03-03",1,0,33],["2026-03-04",2,2,35],["2026-03-05",1,1,36],["2026-03-06",2,2,38],["2026-03-09",2,1,39],["2026-03-10",1,1,40],["2026-03-11",2,1,41],["2026-03-13",1,1,42],["2026-03-16",1,1,43],["2026-03-18",1,0,43],["2026-03-19",1,0,43],["2026-03-20",2,0,43],["2026-03-23",2,0,43],["2026-03-24",1,0,43],["2026-03-27",2,1,44],["2026-03-30",2,0,44],["2026-03-31",2,0,44],["2026-04-01",2,1,45],["2026-04-02",2,0,45],["2026-04-03",2,1,46],["2026-04-06",2,1,47],["2026-04-07",2,1,48],["2026-04-08",2,0,48],["2026-04-09",2,1,49],["2026-04-10",1,0,49],["2026-04-13",2,2,51],["2026-04-14",2,1,52],["2026-04-16",1,0,52],["2026-04-17",2,0,52],["2026-04-18",1,1,53],["2026-04-21",2,0,53],["2026-04-22",1,1,54],["2026-04-23",1,0,54],["2026-04-24",1,1,55],["2026-04-26",1,0,55],["2026-04-27",1,0,55],["2026-04-28",1,0,55],["2026-04-29",2,0,55],["2026-04-30",2,0,55],["2026-05-04",1,0,55],["2026-05-05",2,0,55],["2026-05-06",2,0,55],["2026-05-07",1,0,55],["2026-05-08",1,0,55],["2026-05-09",1,0,55],["2026-05-11",2,0,55],["2026-05-12",1,1,56],["2026-05-14",1,0,56],["2026-05-20",1,0,56],["2026-05-21",2,1,57],["2026-05-26",2,2,59],["2026-06-02",1,0,59],["2026-06-03",1,0,59],["2026-06-05",1,0,59],["2026-06-06",1,1,60],["2026-06-08",1,1,61],["2026-06-10",2,1,62],["2026-06-11",1,1,63],["2026-06-12",1,1,64],["2026-06-13",1,0,64],["2026-06-15",1,1,65],["2026-06-16",2,1,66],["2026-06-17",2,2,68],["2026-06-20",1,1,69],["2026-06-23",1,1,70],["2026-06-24",2,1,71],["2026-06-25",1,0,71],["2026-06-26",1,0,71],["2026-06-27",1,0,71],["2026-07-07",2,2,73],["2026-07-08",1,1,74],["2026-07-10",1,1,75],["2026-07-11",1,1,76],["2026-07-13",1,1,77],["2026-07-14",1,0,77],["2026-07-18",1,0,77],["2026-07-20",1,1,78],["2026-07-23",1,1,79],["2026-07-24",2,2,81],["2026-07-27",1,0,81],["2026-07-28",1,1,82],["2026-07-30",1,0,82],["2026-08-03",1,0,82],["2026-08-04",1,0,82],["2026-08-06",1,1,83],["2026-08-12",1,0,83],["2026-08-13",1,0,83],["2026-08-14",1,1,84],["2026-08-15",1,1,85],["2026-08-18",1,1,86],["2026-08-21",1,1,87],["2026-08-28",1,0,87],["2026-09-02",2,0,87],["2026-09-03",1,0,87],["2026-09-04",1,1,88],["2026-09-08",1,1,89],["2026-09-10",2,1,90],["2026-09-12",2,0,90],["2026-09-14",1,0,90],["2026-09-15",1,0,90],["2026-09-18",1,0,90],["2026-09-19",1,0,90],["2026-09-23",1,0,90],["2026-09-24",1,1,91],["2026-10-03",1,0,91],["2026-10-05",1,0,91],["2026-10-06",2,1,92],["2026-10-07",1,0,92],["2026-10-12",1,0,92],["2026-10-13",1,1,93],["2026-10-14",1,1,94],["2026-10-17",1,0,94],["2026-10-18",1,0,94],["2026-10-19",1,0,94],["2026-10-22",1,0,94],["2026-10-29",1,1,95],["2026-11-01",1,1,96],["2026-11-02",1,0,96],["2026-11-06",1,0,96],["2026-11-07",1,0,96],["2026-11-09",1,0,96],["2026-11-10",1,1,97],["2026-11-11",1,0,97],["2026-11-12",1,1,98],["2026-11-16",1,0,98]],
+"ol":[["2026-05-11",2,2,2],["2026-05-12",1,1,3],["2026-05-14",2,2,5],["2026-05-19",2,2,7],["2026-05-20",2,2,9],["2026-05-21",2,1,10],["2026-05-26",1,1,11],["2026-06-02",1,1,12],["2026-06-03",2,2,14],["2026-06-04",1,1,15],["2026-06-05",2,2,17],["2026-06-08",1,1,18],["2026-06-10",2,2,20],["2026-06-11",1,1,21],["2026-06-12",1,1,22],["2026-06-15",1,1,23],["2026-06-16",2,2,25],["2026-06-22",1,0,25],["2026-06-23",1,1,26],["2026-06-24",2,1,27],["2026-06-25",2,2,29],["2026-06-26",2,2,31],["2026-06-29",2,2,33],["2026-07-07",1,0,33],["2026-07-08",2,1,34],["2026-07-09",2,2,36],["2026-07-10",2,2,38],["2026-07-13",2,2,40],["2026-07-14",1,1,41],["2026-07-15",2,1,42],["2026-07-16",2,2,44],["2026-07-17",3,0,44],["2026-07-22",3,3,47],["2026-07-23",2,1,48],["2026-07-24",1,1,49],["2026-07-27",2,2,51],["2026-07-28",1,1,52],["2026-07-29",2,0,52],["2026-07-30",2,1,53],["2026-08-03",2,2,55],["2026-08-04",1,1,56],["2026-08-06",1,1,57],["2026-08-10",2,1,58],["2026-08-11",2,2,60],["2026-08-12",2,2,62],["2026-08-13",2,2,64],["2026-08-14",1,0,64],["2026-08-17",1,1,65],["2026-08-18",1,1,66],["2026-08-19",1,0,66],["2026-09-02",2,0,66],["2026-09-03",1,1,67],["2026-09-04",1,1,68],["2026-09-08",1,1,69],["2026-09-10",2,1,70],["2026-09-14",2,0,70],["2026-09-15",2,2,72],["2026-09-18",1,0,72],["2026-09-23",2,1,73],["2026-09-24",2,0,73],["2026-10-05",4,0,73],["2026-10-06",2,1,74],["2026-10-07",2,1,75],["2026-10-13",1,0,75],["2026-10-14",1,0,75],["2026-10-15",2,1,76],["2026-10-16",2,2,78],["2026-10-19",2,1,79],["2026-10-22",2,1,80],["2026-10-23",2,1,81],["2026-10-26",3,0,81],["2026-10-29",2,0,81],["2026-10-30",1,0,81],["2026-11-02",1,1,82],["2026-11-03",1,0,82],["2026-11-04",1,1,83],["2026-11-05",1,0,83],["2026-11-06",2,1,84],["2026-11-09",2,0,84],["2026-11-10",2,0,84],["2026-11-12",1,0,84],["2026-11-16",2,2,86]],
+"rl":[["2026-06-06",1,1,1],["2026-06-13",1,1,2],["2026-06-27",1,1,3],["2026-07-07",1,1,4],["2026-07-11",1,1,5],["2026-07-18",2,2,7],["2026-08-01",2,2,9],["2026-08-14",1,1,10],["2026-09-04",1,1,11],["2026-09-10",1,1,12],["2026-09-15",1,1,13],["2026-09-18",2,2,15],["2026-09-19",2,2,17],["2026-10-03",1,1,18],["2026-10-07",1,1,19],["2026-10-12",1,1,20],["2026-10-14",1,1,21],["2026-10-17",1,1,22],["2026-10-18",2,2,24],["2026-10-20",2,1,25],["2026-10-25",1,1,26],["2026-10-26",1,1,27],["2026-10-31",2,2,29],["2026-11-01",1,1,30],["2026-11-02",1,1,31],["2026-11-07",3,2,33],["2026-11-11",1,0,33]],
+"gl":[["2026-09-19",1,1,1],["2026-10-24",1,1,2],["2026-11-07",2,2,4]],
+"bus":[["2026-07-29",1,1,1],["2026-08-12",1,1,2],["2026-10-14",1,1,3],["2026-11-02",1,1,4]]
 };
 
 // ---- "Era fleet" ceiling: every car active at any point since logging began. ----
 // Anchors are real roster snapshots. RL is the only fleet that moved during the
 // logging window (208 active on the 05/01/26 roster -> 218 on 09/02/26); the
 // intermediate steps are interpolated as married pairs at an even cadence.
+// No roster version newer than 09/02/26 has been taken, so every fleet is held
+// at its 09/02/26 count through the report date.
 const fleetHistory = {
-  cr:  [["2025-11-24",442],["2026-09-03",442]],
-  ol:  [["2026-05-11",152],["2026-09-03",152]],
+  cr:  [["2025-11-24",442],["2026-11-17",442]],
+  ol:  [["2026-05-11",152],["2026-11-17",152]],
   rl:  [["2026-06-06",210],["2026-06-20",212],["2026-07-15",214],["2026-08-09",216],["2026-09-02",218]],
-  bus: [["2026-07-29",1115],["2026-09-03",1115]]
+  gl:  [["2026-09-19",179],["2026-11-17",179]],
+  bus: [["2026-07-29",1115],["2026-11-17",1115]]
 };
-const REPORT_DATE = "2026-09-03";
+const REPORT_DATE = "2026-11-17";
 
 // ===================== HELPERS =====================
 function fmtDate(iso) {
@@ -655,16 +723,20 @@ function renderBuilderChart() {
       <div class="bar-count" style="width:40px">${cnt}</div>
     </div>`;
   });
-  html += `<p style="font-size:0.72rem;color:var(--muted);margin-top:8px;">Half your rides are on Rotem-built cars. The Rotem Republic is real — and 37 of your 87 unique coaches carry its badge.</p>`;
+  html += `<p style="font-size:0.72rem;color:var(--muted);margin-top:8px;">Half your rides are on Rotem-built cars — 49.2%, a rounding error from a majority. The Rotem Republic endures, and 40 of your 98 unique coaches carry its badge.</p>`;
   html += `<p style="font-size:0.72rem;color:var(--muted);margin-top:6px;">MBB's entire contribution to this dataset is Car 534, once. See below.</p>`;
   el.innerHTML = html;
 }
 
 // ===================== HEATMAP =====================
-function renderHeatmap(containerId, heatmapData, colorClass, startDate, endDate) {
+function renderHeatmap(containerId, heatmapData, colorClass, startDate, endDate, loggingStart) {
+  // Every heatmap spans the same window so the fleets line up week for week.
+  // Days before a fleet's first logged ride are drawn as outlined "not yet
+  // logging" cells rather than grey "no ride" cells.
   const el = document.getElementById(containerId);
   const start = new Date(startDate + 'T00:00:00');
   const end = new Date(endDate + 'T00:00:00');
+  const logStart = new Date((loggingStart || startDate) + 'T00:00:00');
   const gridStart = new Date(start);
   gridStart.setDate(gridStart.getDate() - gridStart.getDay());
 
@@ -678,15 +750,16 @@ function renderHeatmap(containerId, heatmapData, colorClass, startDate, endDate)
     for (let i = 0; i < 7; i++) {
       const iso = isoOf(cur);
       const inRange = cur >= start && cur <= end;
-      week.push({ iso, inRange, count: heatmapData[iso] || 0 });
+      week.push({ iso, inRange, pre: cur < logStart, count: heatmapData[iso] || 0 });
       cur.setDate(cur.getDate() + 1);
     }
     weeks.push(week);
   }
 
+  // One column per week. Column width + gap = PITCH; the month labels use the
+  // same pitch so they stay over the right columns across a full year.
+  const CELL = 12, GAP = 2, PITCH = CELL + GAP, DAYCOL = 28;
   const DAYS = ['S','M','T','W','T','F','S'];
-  // Month label row: one span per run of consecutive weeks belonging to the same month,
-  // sized to that run so labels sit above the columns they describe.
   const weekMonth = weeks.map(week => {
     const d = week.find(x => x.inRange) || week[0];
     return new Date(d.iso + 'T00:00:00').getMonth();
@@ -696,39 +769,47 @@ function renderHeatmap(containerId, heatmapData, colorClass, startDate, endDate)
     if (i > 0 && m === weekMonth[i-1]) runs[runs.length-1].n++;
     else runs.push({ m, n: 1 });
   });
-  let monthLabels = '<div style="display:flex;gap:2px;margin-bottom:4px;padding-left:30px;">';
+  let monthLabels = `<div style="display:flex;gap:${GAP}px;margin-bottom:4px;padding-left:${DAYCOL + GAP}px;">`;
   runs.forEach(r => {
-    const w = r.n * 14 - 2;
+    const w = r.n * PITCH - GAP;
     const txt = r.n >= 2 ? MONTHS[r.m] : '';
     monthLabels += `<span style="font-size:0.6rem;color:var(--muted);width:${w}px;flex:0 0 ${w}px;overflow:hidden;white-space:nowrap">${txt}</span>`;
   });
   monthLabels += '</div>';
 
-  let grid = '<div style="display:grid;grid-template-columns:28px repeat(' + weeks.length + ',14px);gap:2px;">';
+  let grid = `<div style="display:grid;grid-template-columns:${DAYCOL}px repeat(${weeks.length},${CELL}px);gap:${GAP}px;width:max-content;">`;
   for (let dow = 0; dow < 7; dow++) {
-    grid += `<div style="font-size:0.6rem;color:var(--muted);text-align:right;padding-right:4px;line-height:14px;">${DAYS[dow]}</div>`;
+    grid += `<div class="hm-day" style="line-height:${CELL}px;">${DAYS[dow]}</div>`;
     weeks.forEach(week => {
       const day = week[dow];
       let cls = 'hm-cell';
       if (!day.inRange) cls += ' empty';
+      else if (day.pre) cls += ' pre';
       else if (day.count === 0) cls += ' none';
       else if (day.count === 1) cls += ` ${colorClass}1`;
       else if (day.count === 2) cls += ` ${colorClass}2`;
       else cls += ` ${colorClass}3`;
-      const title = day.inRange && day.count > 0 ? `title="${day.count} ride${day.count>1?'s':''}"` : '';
+      const title = day.inRange && !day.pre && day.count > 0 ? `title="${day.count} ride${day.count>1?'s':''}"` : '';
       grid += `<div class="${cls}" ${title}></div>`;
     });
   }
   grid += '</div>';
 
+  const preKey = loggingStart && loggingStart > startDate
+    ? `<span style="margin-left:14px" class="hm-cell pre"></span><span>Not yet logging</span>` : '';
   const legend = `<div class="hm-legend"><span>Fewer</span>
     <span class="hm-cell none"></span>
     <span class="hm-cell ${colorClass}1"></span>
     <span class="hm-cell ${colorClass}2"></span>
     <span class="hm-cell ${colorClass}3"></span>
-    <span>More</span></div>`;
+    <span>More</span>${preKey}</div>`;
 
   el.innerHTML = monthLabels + grid + legend;
+}
+
+// Narrow screens scroll the heatmap sideways; start each one at the most recent week.
+function scrollHeatmapsToLatest(panel) {
+  (panel || document).querySelectorAll('.heatmap-wrap').forEach(w => { w.scrollLeft = w.scrollWidth; });
 }
 
 // ===================== COVERAGE CHART =====================
@@ -874,7 +955,30 @@ function renderBusTypeChart() {
       <div class="bar-count" style="width:34px;${trips ? 'color:var(--bus-ink);font-weight:600' : ''}">${trips ? trips : '—'}</div>
     </div>`;
   });
-  html += `<p style="font-size:0.72rem;color:var(--muted);margin-top:8px;">One type of seven. All 42 battery-electrics untouched.</p>`;
+  html += `<p style="font-size:0.72rem;color:var(--muted);margin-top:8px;">One type of seven, four times running. All 42 battery-electrics untouched.</p>`;
+  el.innerHTML = html;
+}
+
+// ===================== GREEN LINE TYPE CHART =====================
+// Same shape as the bus chart: trips per car type, fleet size in the label.
+function renderGlTypeChart() {
+  const el = document.getElementById('gl-type-chart');
+  const total = glTypes.reduce((a, t) => a + t[2], 0);
+  const maxTrips = Math.max(...glTypes.map(t => t[2]));
+  let html = '';
+  glTypes.forEach(([type, sub, trips, fleet]) => {
+    const pct = total ? (trips / total * 100) : 0;
+    const width = trips ? Math.max(trips / maxTrips * 100, 22) : 0;
+    const label = `<div class="bar-label" style="width:178px;text-align:right;font-size:0.72rem;line-height:1.2">
+        ${type}<br><span style="font-weight:400;color:var(--muted);font-size:0.64rem">${sub} · ${fleet ? fleet + ' active' : 'none in service'}</span>
+      </div>`;
+    const track = trips
+      ? `<div class="bar-track"><div class="bar-fill" style="width:${width}%;background:var(--gl)"><span>${pct.toFixed(0)}% of trips</span></div></div>`
+      : `<div class="bar-track" style="background:transparent;border:1px dashed #dcdcdc"></div>`;
+    html += `<div class="bar-row">${label}${track}
+      <div class="bar-count" style="width:34px;${trips ? 'color:var(--gl);font-weight:600' : ''}">${trips ? trips : '—'}</div>
+    </div>`;
+  });
   el.innerHTML = html;
 }
 
@@ -889,6 +993,9 @@ function renderStreakCards() {
     2: "Back-to-back. Noted."
   };
   let html = '';
+  const carNotes = {
+    '886': "Completed on the very morning the last edition declared streaks extinct."
+  };
   crStreaks.forEach(([start, end, len, car], i) => {
     const medal = medals[i] || '';
     const isStar = car === '882';
@@ -900,11 +1007,11 @@ function renderStreakCards() {
       <div class="streak-info">
         <div class="car">Car ${car} ${isStar ? '⭐' : ''}${medal}</div>
         <div class="dates">${fmtDate(start)} → ${fmtDate(end)}</div>
-        <div class="note">${notes[len] || ''}</div>
+        <div class="note">${carNotes[car] || notes[len] || ''}</div>
       </div>
     </div>`;
   });
-  html += `<p style="font-size:0.75rem;color:var(--muted);margin-top:4px;">All 11 streaks are Commuter Rail. The Orange Line, Red Line and Bus have produced exactly zero — combined.</p>`;
+  html += `<p style="font-size:0.75rem;color:var(--muted);margin-top:4px;">All 13 streaks are Commuter Rail. The Orange Line, Red Line, Green Line and Bus have produced exactly zero — combined.</p>`;
   el.innerHTML = html;
 }
 
@@ -921,8 +1028,10 @@ function renderTimeline() {
     {dot:'present', lbl:'Feb 13 – Mar 30', note:'Five scattered appearances. Keeps things interesting.'},
     {gap:'65 calendar days', gapCls:'big', note:'Mar 30 → Jun 3 · The Great Drought'},
     {dot:'present', lbl:'Jun 3, 2026', note:'Returns. Says nothing. Ride #19.'},
-    {gap:'92 calendar days and counting', gapCls:'huge', note:'Jun 3 → ??? · The Long Silence'},
-    {dot:'absent', lbl:'Sep 3, 2026', note:'Still missing. 124 rides logged without it. Investigation ongoing.'},
+    {gap:'104 calendar days', gapCls:'huge', note:'Jun 3 → Sep 15 · The Long Silence'},
+    {dot:'present', lbl:'Sep 15, 2026', note:'Returns again. 145 rides later. Ride #20. Offers no explanation.'},
+    {gap:'63 calendar days and counting', gapCls:'big', note:'Sep 15 → ??? · The Sequel'},
+    {dot:'absent', lbl:'Nov 17, 2026', note:'Missing again. 99 rides logged without it. Second investigation opened.'},
   ];
   let html = '';
   events.forEach(ev => {
@@ -947,8 +1056,8 @@ function renderTimeline() {
 function renderDow() {
   const el = document.getElementById('dow-chart');
   const days = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
-  const colors = {CR:'#7B388C', OL:'#FD8A03', RL:'#FA2D27', BUS:'#e3e300'};
-  const totals = days.map((_,i) => ['CR','OL','RL','BUS'].reduce((a,k)=>a+dowByFleet[k][i],0));
+  const colors = {CR:'#7B388C', OL:'#FD8A03', RL:'#FA2D27', GL:'#008150', BUS:'#e3e300'};
+  const totals = days.map((_,i) => ['CR','OL','RL','GL','BUS'].reduce((a,k)=>a+dowByFleet[k][i],0));
   const maxTotal = Math.max(...totals);
   let html = '';
   days.forEach((d, i) => {
@@ -956,7 +1065,7 @@ function renderDow() {
     html += `<div class="dow-row">
       <div class="dow-lbl">${d}</div>
       <div class="dow-track" style="max-width:${(total/maxTotal*100).toFixed(1)}%">`;
-    ['CR','OL','RL','BUS'].forEach(k => {
+    ['CR','OL','RL','GL','BUS'].forEach(k => {
       const v = dowByFleet[k][i];
       if (v > 0) {
         const w = (v/total*100).toFixed(2);
@@ -969,43 +1078,79 @@ function renderDow() {
     <div><span class="sw" style="background:#7B388C"></span>Commuter Rail</div>
     <div><span class="sw" style="background:#FD8A03"></span>Orange Line</div>
     <div><span class="sw" style="background:#FA2D27"></span>Red Line</div>
+    <div><span class="sw" style="background:#008150"></span>Green Line</div>
     <div><span class="sw" style="background:#e3e300"></span>Bus</div>
   </div>`;
   el.innerHTML = html;
 }
 
 // ===================== TABS =====================
-const TAB_ORDER = ['cr','ol','rl','bus','streaks'];
-function showTab(tab) {
+const TAB_ORDER = ['cr','ol','rl','gl','bus','streaks'];
+const TAB_HASH_PREFIX = 'mbta_';
+
+function activateTab(tab, opts) {
+  opts = opts || {};
   document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
   document.querySelectorAll('.tab').forEach(t => { t.className = 'tab'; });
   document.getElementById('panel-' + tab).classList.add('active');
   const idx = TAB_ORDER.indexOf(tab);
   document.querySelectorAll('.tab')[idx].classList.add('active-' + tab);
-  window.scrollTo({top:0, behavior:'smooth'});
+  scrollHeatmapsToLatest(document.getElementById('panel-' + tab));
+  if (opts.scroll) window.scrollTo({top:0, behavior:'smooth'});
 }
 
+function tabFromHash() {
+  const h = window.location.hash.replace('#', '');
+  if (h.indexOf(TAB_HASH_PREFIX) === 0) {
+    const tab = h.slice(TAB_HASH_PREFIX.length);
+    if (TAB_ORDER.indexOf(tab) !== -1) return tab;
+  }
+  return null;
+}
+
+function showTab(tab) {
+  // Clicking a tab updates the URL hash; the hashchange listener below
+  // does the actual panel switch so links and back/forward stay in sync.
+  if (window.location.hash === '#' + TAB_HASH_PREFIX + tab) {
+    activateTab(tab, {scroll: true});
+  } else {
+    window.location.hash = TAB_HASH_PREFIX + tab;
+  }
+}
+
+window.addEventListener('hashchange', function() {
+  const tab = tabFromHash();
+  if (tab) activateTab(tab, {scroll: true});
+});
+
 // ===================== INIT =====================
+(function() {
+  const initialTab = tabFromHash();
+  if (initialTab) activateTab(initialTab);
+})();
 renderCoverage('cr-coverage', 'cr', '#7B388C');
 renderCoverage('ol-coverage', 'ol', '#FD8A03');
 renderCoverage('rl-coverage', 'rl', '#FA2D27');
+renderCoverage('gl-coverage', 'gl', '#008150');
 renderCoverage('bus-coverage', 'bus', '#c9c900');
-renderBars('cr-bars', crTopCars, 19, '#7B388C');
+renderBars('cr-bars', crTopCars, 20, '#7B388C');
 renderMonthlyBars('cr-monthly-bars', crMonthly, '#7B388C');
-renderBars('ol-bars', olRepeatCars, 4, '#FD8A03');
+renderBars('ol-bars', olRepeatCars, 6, '#FD8A03');
 renderChips('ol-once', olOnceCars, 'ol');
 renderMonthlyBars('ol-monthly-bars', olMonthly, '#FD8A03');
 renderMonthlyBars('rl-monthly-bars', rlMonthly, '#FA2D27');
 renderLabeledBars('rl-gen-chart', rlGen, '#FA2D27', 130, ' rides');
 renderBuilderChart();
-renderHeatmap('cr-heatmap', crHeatmap, 'c', '2025-11-24', '2026-08-28');
-renderHeatmap('ol-heatmap', olHeatmap, 'ol', '2026-05-11', '2026-08-19');
-renderHeatmap('rl-heatmap', rlHeatmap, 'rl', '2026-06-06', '2026-08-14');
+const HM_START = '2025-11-24', HM_END = '2026-11-16';
+renderHeatmap('cr-heatmap', crHeatmap, 'c', HM_START, HM_END);
+renderHeatmap('ol-heatmap', olHeatmap, 'ol', HM_START, HM_END, '2026-05-11');
+renderHeatmap('rl-heatmap', rlHeatmap, 'rl', HM_START, HM_END, '2026-06-06');
+renderGlTypeChart();
 renderBusTypeChart();
+scrollHeatmapsToLatest(document.querySelector('.panel.active'));
 renderStreakCards();
 renderTimeline();
 renderDow();
-renderLabeledBars('rpd-chart', Object.entries(ridesPerDay), '#0d9488', 56, ' days');
 </script>
 </body>
 </html>
